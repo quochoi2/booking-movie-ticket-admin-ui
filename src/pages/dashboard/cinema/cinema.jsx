@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import cinemaService from "@/services/cinemaService";
 import { SearchButton } from "@/components/button";
 import { useDebounce } from "@/hooks/use-debound";
-import { Pagination } from "@mui/material";
+import { CircularProgress, Pagination } from "@mui/material";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 import ModalCinema from "./modal";
 
@@ -27,6 +27,7 @@ const CinemaPage = () => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch(debouncedSearch, 1);
@@ -57,21 +58,19 @@ const CinemaPage = () => {
 
   // create, update, delete
   const handleCreateOrUpdate = async (data) => {
+    setLoading(true);
     try {
       let updatedCinema;
       if (data.id) {
         updatedCinema = await cinemaService.update(data);
-        setCinema((prevCinemas) =>
-          prevCinemas.map((cinema) =>
-            cinema.id === data.id ? { ...cinema, ...data } : cinema
-          )
-        );
       } else {
         updatedCinema = await cinemaService.create(data);
-        setCinema((prevCinemas) => [...prevCinemas, updatedCinema]);
       }
+      fetch(debouncedSearch, pagination.currentPage);
     } catch (err) {
       console.error("Error creating/updating cinema:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,7 +78,7 @@ const CinemaPage = () => {
     if (window.confirm("Are you sure you want to delete this cinema?")) {
       try {
         await cinemaService.delete(data);
-        setCinema((prevCinemas) => prevCinemas.filter((cinema) => cinema.id !== data.id));
+        fetch(debouncedSearch, pagination.currentPage);
       } catch (err) {
         console.error("Error deleting cinema:", err);
       }
@@ -98,6 +97,12 @@ const CinemaPage = () => {
 
   return ( 
     <div className="relative mt-12 mb-8 flex flex-col gap-12">
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <CircularProgress color="inherit" />
+        </div>
+      )} 
       <div className="absolute -top-[95px] flex justify-end right-[255px]">
         <div className="flex justify-between gap-3">
           <div>
@@ -141,25 +146,23 @@ const CinemaPage = () => {
             </thead>
             <tbody>
               {cinema.map((obj, key) => {
-                const className = `py-3 px-5 ${
-                  key === cinema.length - 1 ? "" : "border-b border-blue-gray-50"
-                }`;
+                const className = `py-3 px-5 ${key === cinema.length - 1 ? "" : "border-b border-blue-gray-50"}`;
 
                 return (
                   <tr key={obj.id}>
                     <td className={className}>
                       <Typography className="text-sm font-semibold text-blue-gray-600">
-                        {obj?.id}
+                        {obj?.id || 'No Data'}
                       </Typography>
                     </td>
                     <td className={className}>
                       <Typography className="text-sm font-semibold text-blue-gray-600">
-                        {obj?.name}
+                        {obj?.name || 'No Data'}
                       </Typography>
                     </td>
                     <td className={className}>
                       <Typography className="text-sm font-semibold text-blue-gray-600">
-                        {obj?.address}
+                        {obj?.address || 'No Data'}
                       </Typography>
                     </td>
                     <td className={className} style={{ display: 'flex' }}>

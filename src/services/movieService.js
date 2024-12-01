@@ -1,8 +1,8 @@
-import { requestApi } from "@/utils/requestApi";
+import { requestApiFile } from "@/utils/requestApi";
 
 const movieService = {
-  getAll: async (search, page, pageSize = 5) => {
-    return await requestApi.get(`/movie/search?search=${search}&page=${page}&pageSize=${pageSize}`)
+  getAll: async (search = '', page = 1, pageSize = 5) => {
+    return await requestApiFile.get(`/movie/search?search=${search}&page=${page}&pageSize=${pageSize}`)
       .then(res => {
         if (!res) {
           console.error('Fetching failed: No data');
@@ -17,7 +17,7 @@ const movieService = {
   },
 
   create: async (data) => {
-    return await requestApi.post('/movie', data)
+    return await requestApiFile.post('/movie', data)
       .then(res => {
         if (!res) {
           console.error('Creating failed');
@@ -31,7 +31,7 @@ const movieService = {
   },
 
   update: async (id, data) => {
-    return await requestApi.put('/movie/' + id, data)
+    return await requestApiFile.put('/movie/' + id, data)
       .then(res => {
         if (!res) {
           console.error('Updating failed');
@@ -45,7 +45,7 @@ const movieService = {
   },
 
   delete: async (data) => {
-    return await requestApi.delete('/movie/' + data.id)
+    return await requestApiFile.delete('/movie/' + data.id)
       .then(res => {
         if (!res) {
           console.error('Deleting failed');

@@ -4,6 +4,7 @@ import {
   TableCellsIcon,
   InformationCircleIcon,
   FilmIcon,
+  CalendarDaysIcon,
 } from "@heroicons/react/24/solid";
 import { Home } from "./pages/dashboard/home";
 import { Profile } from "./pages/dashboard/profile";
@@ -11,6 +12,7 @@ import { CinemaPage } from "./pages/dashboard/cinema";
 import { Notifications } from "./pages/dashboard/notification";
 import { MoviePage } from "./pages/dashboard/movie";
 import { Tables } from "./pages/dashboard";
+import { ShowTime } from "./pages/dashboard/showTime";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -46,6 +48,13 @@ export const routes = [
         name: "Movie",
         path: "/movie",
         element: <MoviePage />,
+        roles: ["admin"],
+      },
+      {
+        icon: <CalendarDaysIcon {...icon} />,
+        name: "Show",
+        path: "/show-time",
+        element: <ShowTime />,
         roles: ["admin"],
       },
       {

@@ -1,4 +1,4 @@
-import { requestApi, requestApiPublic } from "@/utils/requestApi";
+import { requestApiPublic } from "@/utils/requestApi";
 import { jwtDecode } from "jwt-decode";
 
 const AuthService = {

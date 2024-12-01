@@ -19,7 +19,7 @@ const SelectMonth = ({ selected, setSelected }) => {
         }}
       >
         {[...Array(12).keys()].map((i) => {
-          const month = i + 1; // To create values from 1 to 12
+          const month = i + 1;
           return (
             <MenuItem key={month} value={month}>
               {month} months

@@ -1,8 +1,8 @@
 import { requestApiJson } from "@/utils/requestApi";
 
-const cinemaService = {
-  getAll: async (search = '', page = 1, pageSize = 5) => {
-    return await requestApiJson.get(`/cinema/search?search=${search}&page=${page}&pageSize=${pageSize}`)
+const showTimeService = {
+  getAll: async (search, page, pageSize = 5) => {
+    return await requestApiJson.get(`/show-time/search?search=${search}&page=${page}&pageSize=${pageSize}`)
       .then(res => {
         if (!res) {
           console.error('Fetching failed: No data');
@@ -17,7 +17,7 @@ const cinemaService = {
   },
 
   create: async (data) => {
-    return await requestApiJson.post('/cinema', data)
+    return await requestApiJson.post('/show-time', data)
       .then(res => {
         if (!res) {
           console.error('Creating failed');
@@ -30,8 +30,8 @@ const cinemaService = {
       });
   },
 
-  update: async (data) => {
-    return await requestApiJson.put('/cinema/' + data.id, data)
+  update: async (id, data) => {
+    return await requestApiJson.put('/show-time/' + id, data)
       .then(res => {
         if (!res) {
           console.error('Updating failed');
@@ -45,7 +45,7 @@ const cinemaService = {
   },
 
   delete: async (data) => {
-    return await requestApiJson.delete('/cinema/' + data.id)
+    return await requestApiJson.delete('/show-time/' + data.id)
       .then(res => {
         if (!res) {
           console.error('Deleting failed');
@@ -59,4 +59,4 @@ const cinemaService = {
   },
 }
 
-export default cinemaService;
+export default showTimeService;

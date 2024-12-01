@@ -4,19 +4,18 @@ import {
   CardBody,
   Typography,
   IconButton,
-  Avatar,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { SearchButton } from "@/components/button";
 import { useDebounce } from "@/hooks/use-debound";
 import { CircularProgress, Pagination } from "@mui/material";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
-import movieService from "@/services/movieService";
-import ModalMovie from "./modal";
 import { formatDate } from "@/utils/formatDate";
+import showTimeService from "@/services/showTimeService";
+import ModalShowTime from "./modal";
 
-const MoviePage = () => {
-  const [movie, setMovie] = useState([]);
+const ShowTimePage = () => {
+  const [showTime, setShowTime] = useState([]);
   const [pagination, setPagination] = useState({
     totalItems: 0,
     currentPage: 1,
@@ -40,9 +39,9 @@ const MoviePage = () => {
   }, [pagination.currentPage]);
   
   const fetch = (query = '', page = 1) => {
-    movieService.getAll(query, page, pagination.pageSize)
+    showTimeService.getAll(query, page, pagination.pageSize)
       .then((res) => {
-        setMovie(res.data);
+        setShowTime(res.data);
         setPagination({
           totalItems: res.pagination.totalItems,
           currentPage: res.pagination.currentPage,
@@ -50,7 +49,7 @@ const MoviePage = () => {
           totalPages: res.pagination.totalPages,
         });
       })
-      .catch((err) => console.error("Error fetching movie:", err));
+      .catch((err) => console.error("Error fetching show time:", err));
   };
   
   const handlePageChange = (event, page) => {
@@ -62,51 +61,27 @@ const MoviePage = () => {
   const handleCreateOrUpdate = async (data) => {
     setLoading(true);
     try {
-      const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('description', data.description);
-      formData.append('age', data.age);
-      formData.append('language', data.language);
-      formData.append('rating', data.rating);
-      formData.append('video', data.video);
-      formData.append('duration', data.duration);
-      formData.append('releaseDate', data.releaseDate);
-      if (data.image) {
-        formData.append('image', data.image);
-      }
-
-      // for (let pair of formData.entries()) {
-      //   console.log(pair[0] + ': ' + pair[1]);
-      // }
-
-      let updatedMovie;
-
+      let updatedShowTime;
       if (data.id) {
-        updatedMovie = await movieService.update(data.id, formData);
-        // setMovie((prevMovies) =>
-        //   prevMovies.map((obj) =>
-        //     obj.id === data.id ? { ...obj, ...data } : obj
-        //   )
-        // );
+        updatedShowTime = await showTimeService.update(data);
       } else {
-        updatedMovie = await movieService.create(formData);
-        // setMovie((prevMovies) => [...prevMovies, updatedMovie]);
+        updatedShowTime = await showTimeService.create(data);
       }
       fetch(debouncedSearch, pagination.currentPage);
     } catch (err) {
-      console.error("Error creating/updating movie:", err);
+      console.error("Error creating/updating show time:", err);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   const handleDelete = async (data) => {
-    if (window.confirm("Are you sure you want to delete this movie?")) {
+    if (window.confirm("Are you sure you want to delete this show time?")) {
       try {
-        await movieService.delete(data);
+        await showTimeService.delete(data);
         fetch(debouncedSearch, pagination.currentPage);
       } catch (err) {
-        console.error("Error deleting movie:", err);
+        console.error("Error deleting show time:", err);
       }
     }
   };
@@ -121,6 +96,12 @@ const MoviePage = () => {
     setModalOpen(true);
   };
 
+  // filter time >
+  const filterShowTime = (data) => {
+    const now = new Date();
+    return data.filter((show) => new Date(show.timeEnd) > now);
+  };  
+
   return ( 
     <div className="relative mt-12 mb-8 flex flex-col gap-12">
       {/* Loading Overlay */}
@@ -128,7 +109,7 @@ const MoviePage = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <CircularProgress color="inherit" />
         </div>
-      )}      
+      )} 
       <div className="absolute -top-[95px] flex justify-end right-[255px]">
         <div className="flex justify-between gap-3">
           <div>
@@ -148,21 +129,21 @@ const MoviePage = () => {
       <Card>
         <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
           <Typography variant="h5" color="white">
-            Movie Table
+            Show Time Table
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["title", "description", "duration", "status", "sale", "rating", "release date", "expire date", "actions"].map((el) => (
+                {["movie", "cinema", "time start", "time end", "actions"].map((el) => (
                   <th
                     key={el}
-                    className="border-b border-blue-gray-50 py-3 px-5 text-left w-[250px]"
+                    className="border-b border-blue-gray-50 py-3 px-5 text-left"
                   >
                     <Typography
                       variant="small"
-                      className="text-[11px] font-bold uppercase text-blue-gray-400"
+                      className="text-sm font-bold uppercase text-blue-gray-400"
                     >
                       {el}
                     </Typography>
@@ -171,74 +152,36 @@ const MoviePage = () => {
               </tr>
             </thead>
             <tbody>
-              {movie.map((obj, key) => {
-                const className = `py-3 px-5 ${
-                  key === movie.length - 1 ? "" : "border-b border-blue-gray-50"
-                }`;
+              {showTime.map((obj, key) => {
+                const className = `py-3 px-5 ${key === showTime.length - 1 ? "" : "border-b border-blue-gray-50"}`;
 
                 return (
                   <tr key={obj.id}>
                     <td className={className}>
-                      <div className="flex items-center gap-4 w-[200px]">
-                        <Avatar src={obj.image} alt={obj.publicId} size="sm" variant="rounded" />
-                        <div>
-                          <Typography
-                            className="font-semibold"
-                          >
-                            {obj?.title?.length > 30 ? `${obj?.title?.substring(0, 30)}...` : obj?.title || 'No title'}
-                          </Typography>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
-                            {obj?.language} | {obj?.age}+
-                          </Typography>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div className="w-[200px]">
+                      <div className="w-[120px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.description?.length > 30 ? `${obj?.description?.substring(0, 30)}...` : obj?.description || 'No description'}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div className="w-[80px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.duration || 'N/A'} months
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div className="w-[80px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.status || 'N/A'}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div className="w-[80px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.sale || 'N/A'}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div>
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.rating || 'N/A'}
+                          {obj?.movie?.title?.length > 30 ? `${obj?.movie?.title.substring(0, 30)}...` : obj?.movie?.title || 'N/A'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[120px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.releaseDate ? formatDate(obj.releaseDate) : ""}
+                          {obj?.cinema?.name || 'N/A'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[120px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.expireDate ? formatDate(obj.expireDate) : ""}
+                          {obj?.timeStart ? formatDate(obj.timeStart) : ""}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={className}>
+                      <div className="w-[120px]">
+                        <Typography className="text-sm font-semibold text-blue-gray-600">
+                          {obj?.timeEnd ? formatDate(obj.timeEnd) : ""}
                         </Typography>
                       </div>
                     </td>
@@ -270,7 +213,7 @@ const MoviePage = () => {
           </div>
         </CardBody>
       </Card>
-      <ModalMovie
+      <ModalShowTime
         open={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSubmit={handleCreateOrUpdate}
@@ -280,4 +223,4 @@ const MoviePage = () => {
   );
 }
  
-export default MoviePage;
+export default ShowTimePage;
