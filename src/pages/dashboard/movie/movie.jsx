@@ -183,7 +183,7 @@ const MoviePage = () => {
                         <Avatar src={obj.image} alt={obj.publicId} size="sm" variant="rounded" />
                         <div>
                           <Typography
-                            className="font-semibold"
+                            className="font-semibold leading-[18px]"
                           >
                             {obj?.title?.length > 30 ? `${obj?.title?.substring(0, 30)}...` : obj?.title || 'No title'}
                           </Typography>
@@ -210,14 +210,14 @@ const MoviePage = () => {
                     <td className={className}>
                       <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.status || 'N/A'}
+                          {obj?.isActive === 0 ? 'active' : 'unactive'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.sale || 'N/A'}
+                          {obj?.isRelease === 0 ? 'active' : 'unactive'}
                         </Typography>
                       </div>
                     </td>
