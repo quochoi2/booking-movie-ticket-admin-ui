@@ -1,14 +1,21 @@
 export const chartsConfig = {
+  type: "line",
+  height: 250,
   chart: {
     toolbar: {
       show: false,
     },
+    background: "#ffffff",
   },
   title: {
     show: "",
   },
-  dataLabels: {
-    enabled: false,
+  colors: ["#0288d1", "#FF4560"],
+  stroke: {
+    lineCap: "round",
+  },
+  markers: {
+    size: 5,
   },
   xaxis: {
     axisTicks: {
@@ -27,6 +34,12 @@ export const chartsConfig = {
     },
   },
   yaxis: {
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
     labels: {
       style: {
         colors: "#37474f",
@@ -49,6 +62,7 @@ export const chartsConfig = {
       top: 5,
       right: 20,
     },
+    backgroundColor: "#ffffff",
   },
   fill: {
     opacity: 0.8,

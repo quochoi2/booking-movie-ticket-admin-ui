@@ -20,3 +20,11 @@ export const formatDateToInput = (date) => {
   const minutes = String(d.getMinutes()).padStart(2, "0");
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
+
+export const getCurrentWeekNumber = () => {
+  const currentDate = new Date();
+  const startDate = new Date(currentDate.getFullYear(), 0, 1);
+  const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+  return Math.ceil((days + startDate.getDay() + 1) / 7);
+};
+

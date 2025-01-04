@@ -94,6 +94,7 @@ const completedTaskChart = {
     },
   },
 };
+
 const completedTasksChart = {
   ...completedTaskChart,
   series: [

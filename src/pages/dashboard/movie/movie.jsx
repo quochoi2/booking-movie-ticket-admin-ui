@@ -184,6 +184,7 @@ const MoviePage = () => {
                         <div>
                           <Typography
                             className="font-semibold leading-[18px]"
+                            title={obj?.title}
                           >
                             {obj?.title?.length > 30 ? `${obj?.title?.substring(0, 30)}...` : obj?.title || 'No title'}
                           </Typography>
@@ -195,8 +196,10 @@ const MoviePage = () => {
                     </td>
                     <td className={className}>
                       <div className="w-[200px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.description?.length > 30 ? `${obj?.description?.substring(0, 30)}...` : obj?.description || 'No description'}
+                        <Typography className="text-sm font-semibold text-blue-gray-600"
+                          title={obj?.description}
+                        >
+                          {obj?.description?.length > 58 ? `${obj?.description?.substring(0, 58)}...` : obj?.description || 'No description'}
                         </Typography>
                       </div>
                     </td>

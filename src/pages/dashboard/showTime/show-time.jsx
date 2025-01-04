@@ -159,14 +159,20 @@ const ShowTimePage = () => {
                   <tr key={obj.id}>
                     <td className={className}>
                       <div className="w-[120px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.movie?.title?.length > 30 ? `${obj?.movie?.title.substring(0, 30)}...` : obj?.movie?.title || 'N/A'}
+                        <Typography 
+                          className="text-sm font-semibold text-blue-gray-600 truncate"
+                          title={obj?.movie?.title || 'N/A'}
+                        >
+                          {obj?.movie?.title || 'N/A'}                        
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[120px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
+                        <Typography 
+                          className="text-sm font-semibold text-blue-gray-600 truncate"
+                          title={obj?.cinema?.name || 'N/A'}
+                        >
                           {obj?.cinema?.name || 'N/A'}
                         </Typography>
                       </div>

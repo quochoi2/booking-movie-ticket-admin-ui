@@ -36,7 +36,7 @@ const addAuthInterceptor = (axiosInstance) => {
       const originalConfig = error.config;
 
       if (error.response?.status === 403 && !originalConfig._retry) {
-        originalConfig._retry = true; // Đánh dấu đã retry
+        originalConfig._retry = true;
         try {
           console.log("Call refresh token API");
 
