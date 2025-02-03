@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  MenuItem,
-  InputLabel,
-  Select,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -29,6 +26,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
   useEffect(() => {
     if (initialData) {
       setFormData({
+        id: initialData.id || null,
         title: initialData.title || "",
         description: initialData.description || "",
         duration: initialData.duration || "",

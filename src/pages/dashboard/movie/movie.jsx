@@ -80,17 +80,10 @@ const MoviePage = () => {
       // }
 
       let updatedMovie;
-
       if (data.id) {
         updatedMovie = await movieService.update(data.id, formData);
-        // setMovie((prevMovies) =>
-        //   prevMovies.map((obj) =>
-        //     obj.id === data.id ? { ...obj, ...data } : obj
-        //   )
-        // );
       } else {
         updatedMovie = await movieService.create(formData);
-        // setMovie((prevMovies) => [...prevMovies, updatedMovie]);
       }
       fetch(debouncedSearch, pagination.currentPage);
     } catch (err) {

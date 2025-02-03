@@ -16,6 +16,11 @@ import movieService from "@/services/movieService";
 import cinemaService from "@/services/cinemaService";
 import { formatDateToInput } from "@/utils/formatDate";
 
+const parseInputToDate = (input) => {
+  if (!input) return null;
+  return new Date(input);
+};
+
 const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
   const [formData, setFormData] = useState({
     timeStart: "",
@@ -31,7 +36,7 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
     if (initialData) {
       setFormData({
         timeStart: initialData.timeStart ? formatDateToInput(initialData.timeStart) : "",
-      timeEnd: initialData.timeEnd ? formatDateToInput(initialData.timeEnd) : "",
+        timeEnd: initialData.timeEnd ? formatDateToInput(initialData.timeEnd) : "",
         movieId: initialData.movieId || "",
         cinemaId: initialData.cinemaId || "",
       });

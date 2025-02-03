@@ -4,6 +4,7 @@ import {
   CardBody,
   Typography,
   IconButton,
+  Avatar,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { SearchButton } from "@/components/button";
@@ -41,6 +42,7 @@ const ShowTimePage = () => {
   const fetch = (query = '', page = 1) => {
     showTimeService.getAll(query, page, pagination.pageSize)
       .then((res) => {
+        console.log(res);
         setShowTime(res.data);
         setPagination({
           totalItems: res.pagination.totalItems,
@@ -158,7 +160,8 @@ const ShowTimePage = () => {
                 return (
                   <tr key={obj.id}>
                     <td className={className}>
-                      <div className="w-[120px]">
+                      <div className="flex items-center gap-4 w-[180px]">
+                        <Avatar src={obj?.movie?.image} alt={obj?.movie?.image} size="sm" variant="rounded" />
                         <Typography 
                           className="text-sm font-semibold text-blue-gray-600 truncate"
                           title={obj?.movie?.title || 'N/A'}
