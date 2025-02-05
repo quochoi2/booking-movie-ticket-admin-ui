@@ -14,6 +14,7 @@ const AuthService = {
           console.error("User is not admin, access denied.");
           throw new Error("Access denied: User is not an admin.");
         }
+
         localStorage.setItem("accessToken", accessToken);
         return userInfo;
       } else {

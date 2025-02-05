@@ -19,6 +19,7 @@ export function SignIn() {
   const handleLogin = async () => {
     try {
       const res = await AuthService.login(username, password);
+      console.log(res);
       if (res?.role !== "admin") {
         alert("Bạn không có quyền truy cập vào trang này.");
         return; 
