@@ -6,13 +6,16 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import PropTypes from "prop-types";
-import Chart from "react-apexcharts";
+import { lazy, Suspense } from "react";
+const Chart = lazy(() => import("react-apexcharts"));
 
 export function StatisticsChart({ color = 'white', chart, title, description, footer }) {
   return (
     <Card className="border border-blue-gray-100 shadow-sm">
       <CardHeader variant="gradient" color={color} floated={false} shadow={false}>
-        <Chart {...chart} />
+        <Suspense fallback={<div>Loading Chart...</div>}>
+          <Chart {...chart} />
+        </Suspense>
       </CardHeader>
       <CardBody className="px-6 pt-0">
         <Typography variant="h6" color="blue-gray">
