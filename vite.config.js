@@ -8,8 +8,10 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: [{ find: "@", replacement: "/src" }],
     },
+    base: "/",
     server: {
       port: Number(env.VITE_PORT) || 5506,
+      historyApiFallback: true, // Hỗ trợ điều hướng
     },
     build: {
       rollupOptions: {
