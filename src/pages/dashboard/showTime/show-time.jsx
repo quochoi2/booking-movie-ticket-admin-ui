@@ -42,7 +42,7 @@ const ShowTimePage = () => {
   const fetch = (query = '', page = 1) => {
     showTimeService.getAll(query, page, pagination.pageSize)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setShowTime(res.data);
         setPagination({
           totalItems: res.pagination.totalItems,

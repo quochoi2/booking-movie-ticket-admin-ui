@@ -49,7 +49,9 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
     setLoading(true);
     Promise.all([movieService.getAll(), cinemaService.getAll()])
       .then(([moviesRes, cinemasRes]) => {
-        setMovies(moviesRes.data || []);
+        // console.log(moviesRes.data);
+        const filteredMovies = (moviesRes.data || []).filter(movie => movie.isRelease === 0);
+        setMovies(filteredMovies);
         setCinemas(cinemasRes.data || []);
       })
       .catch((err) => console.error("Error fetching data:", err))
