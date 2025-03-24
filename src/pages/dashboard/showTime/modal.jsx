@@ -50,7 +50,7 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
     Promise.all([movieService.getAll(), cinemaService.getAll()])
       .then(([moviesRes, cinemasRes]) => {
         // console.log(moviesRes.data);
-        const filteredMovies = (moviesRes.data || []).filter(movie => movie.isRelease === 0);
+        const filteredMovies = (moviesRes.data || []).filter(movie => movie.status === 0);
         setMovies(filteredMovies);
         setCinemas(cinemasRes.data || []);
       })
@@ -117,11 +117,13 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
                 value={formData.movieId}
                 onChange={handleChange}
               >
-                {movies.map((movie) => (
-                  <MenuItem key={movie.id} value={movie.id}>
-                    {movie.title}
-                  </MenuItem>
-                ))}
+                {movies.length > 0 ? movies.map((movie) => (
+                    <MenuItem key={movie.id} value={movie.id}>
+                      {movie.title}
+                    </MenuItem>
+                  )) : (
+                    <MenuItem>Not found movies</MenuItem>
+                  )}
               </Select>
             </FormControl>
             <FormControl fullWidth margin="normal">
@@ -132,11 +134,13 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
                 value={formData.cinemaId}
                 onChange={handleChange}
               >
-                {cinemas.map((cinema) => (
+                {cinemas.length > 0 ? cinemas.map((cinema) => (
                   <MenuItem key={cinema.id} value={cinema.id}>
                     {cinema.name}
                   </MenuItem>
-                ))}
+                )) : (
+                  <MenuItem>Not found cinemas</MenuItem>
+                )}
               </Select>
             </FormControl>
           </>

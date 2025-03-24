@@ -85,7 +85,7 @@ export function DashboardNavbar() {
             <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
             {
               user?.fullName || 
-              "Nguyen Van Not-found"
+              "Not-found"
             }
           </Button>
           <IconButton

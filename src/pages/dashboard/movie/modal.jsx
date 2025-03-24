@@ -13,14 +13,16 @@ import { SelectMonth } from "@/components/selected";
 const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
-    duration: "",
-    rating: "",
-    language: '',
-    age: '',
-    releaseDate: "",
+    titleAnother: "",
     image: null,
     video: "",
+    description: "",
+    type: "",
+    studio: "",
+    dateAired: "",
+    score: "",
+    duration: "",
+    quality: "",
   });
 
   useEffect(() => {
@@ -28,14 +30,16 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
       setFormData({
         id: initialData.id || null,
         title: initialData.title || "",
-        description: initialData.description || "",
-        duration: initialData.duration || "",
-        rating: initialData.rating || "",
-        language: initialData.language || "",
-        age: initialData.age || "",
-        releaseDate: initialData.releaseDate ? initialData.releaseDate.split('T')[0] : "",
+        titleAnother: initialData.titleAnother || "",
         image: initialData.image || "",
-        video: initialData.video || null,
+        video: initialData.video || "",
+        description: initialData.description || "",
+        type: initialData.type || "",
+        studio: initialData.studio || "",
+        dateAired: initialData.dateAired || "",
+        score: initialData.score || "",
+        duration: initialData.duration || "",
+        quality: initialData.quality || "",
       });
     } else {
       resetForm();
@@ -45,14 +49,16 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
   const resetForm = () => {
     setFormData({
       title: "",
-      description: "",
-      duration: "",
-      rating: "",
-      language: '',
-      age: '',
-      releaseDate: "",
-      image: null,
+      titleAnother: "",
+      image: "",
       video: "",
+      description: "",
+      type: "",
+      studio: "",
+      dateAired: "",
+      score: "",
+      duration: "",
+      quality: "",
     });
   };
 
@@ -78,6 +84,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>{initialData ? "Edit Movie" : "Create Movie"}</DialogTitle>
       <DialogContent>
+        {/* title  */}
         <div className="mt-5">
           <TextField
             label="Title"
@@ -86,6 +93,27 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
             value={formData.title}
             onChange={handleChange}
             required
+          />
+        </div>
+        {/* titleAnother  */}
+        <div className="mt-5">
+          <TextField
+            label="Title Another"
+            name="titleAnother"
+            fullWidth
+            value={formData.titleAnother}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        {/* Video Link */}
+        <div className="mt-5">
+          <TextField
+            label="Video Link"
+            name="video"
+            fullWidth
+            value={formData.video}
+            onChange={handleChange}
           />
         </div>
         {/* Decription */}
@@ -101,59 +129,91 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
             required
           />
         </div>
-        {/* Language */}
+        {/* type  */}
         <div className="mt-5">
           <TextField
-            label="Language"
-            name="language"
+            label="Type"
+            name="type"
             fullWidth
-            value={formData.language}
+            value={formData.type}
             onChange={handleChange}
             required
           />
         </div>
-        {/* Age */}
+        {/* studio  */}
         <div className="mt-5">
           <TextField
-            label="Age"
-            name="age"
+            label="Studio"
+            name="studio"
             fullWidth
-            value={formData.age}
+            value={formData.studio}
             onChange={handleChange}
             required
           />
         </div>
-        {/* Rating */}
+        {/* dateAired */}
         <div className="mt-5">
           <TextField
-            label="Rating"
-            name="rating"
+            label="Date Aired"
+            name="dateAired"
+            type="date"
             fullWidth
-            value={formData.rating}
+            value={formData.dateAired}
+            onChange={handleChange}
+            required
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </div>
+        {/* status  */}
+        {/* <div className="mt-5">
+          <TextField
+            label="Status"
+            name="status"
+            fullWidth
+            value={formData.status}
+            onChange={handleChange}
+            required
+          />
+        </div> */}
+        {/* score  */}
+        <div className="mt-5">
+          <TextField
+            label="Score"
+            name="score"
+            fullWidth
+            value={formData.score}
             onChange={handleChange}
             required
           />
         </div>
         {/* Duration */}
         <div className="mt-5">
+          <TextField
+            label="Duration"
+            name="duration"
+            fullWidth
+            value={formData.duration}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        {/* <div className="mt-5">
           <SelectMonth
             selected={formData.duration}
             setSelected={(value) => setFormData((prev) => ({ ...prev, duration: value }))}
           />
-        </div>
-        {/* Release Date */}
+        </div> */}
+        {/* quality  */}
         <div className="mt-5">
           <TextField
-            label="Release Date"
-            name="releaseDate"
-            type="date"
+            label="quality"
+            name="quality"
             fullWidth
-            value={formData.releaseDate}
+            value={formData.quality}
             onChange={handleChange}
             required
-            InputLabelProps={{
-              shrink: true,
-            }}
           />
         </div>
         {/* Image */}
@@ -165,16 +225,6 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
             type="file"
             onChange={handleImageChange}
             className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-          />
-        </div>
-        {/* Video Link */}
-        <div className="mt-5">
-          <TextField
-            label="Video Link"
-            name="video"
-            fullWidth
-            value={formData.video}
-            onChange={handleChange}
           />
         </div>
       </DialogContent>

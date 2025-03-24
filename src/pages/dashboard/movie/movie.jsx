@@ -64,13 +64,16 @@ const MoviePage = () => {
     try {
       const formData = new FormData();
       formData.append('title', data.title);
-      formData.append('description', data.description);
-      formData.append('age', data.age);
-      formData.append('language', data.language);
-      formData.append('rating', data.rating);
+      formData.append('titleAnother', data.titleAnother);
       formData.append('video', data.video);
+      formData.append('description', data.description);
+      formData.append('type', data.type);
+      formData.append('studio', data.studio);
+      formData.append('dateAired', data.dateAired);
+      // formData.append('status', data.status);
+      formData.append('score', data.score);
       formData.append('duration', data.duration);
-      formData.append('releaseDate', data.releaseDate);
+      formData.append('quality', data.quality);
       if (data.image) {
         formData.append('image', data.image);
       }
@@ -148,7 +151,7 @@ const MoviePage = () => {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["title", "description", "duration", "status", "sale", "rating", "release date", "expire date", "actions"].map((el) => (
+                {["title", "description", "type", "studio", "dateAired", "status", "score", "duration", "quality", "actions"].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left w-[250px]"
@@ -182,7 +185,7 @@ const MoviePage = () => {
                             {obj?.title?.length > 30 ? `${obj?.title?.substring(0, 30)}...` : obj?.title || 'No title'}
                           </Typography>
                           <Typography className="text-xs font-normal text-blue-gray-500">
-                            {obj?.language} | {obj?.age}+
+                            {obj?.titleAnother}
                           </Typography>
                         </div>
                       </div>
@@ -192,53 +195,60 @@ const MoviePage = () => {
                         <Typography className="text-sm font-semibold text-blue-gray-600"
                           title={obj?.description}
                         >
-                          {obj?.description?.length > 58 ? `${obj?.description?.substring(0, 58)}...` : obj?.description || 'No description'}
+                          {obj?.description?.length > 85 ? `${obj?.description?.substring(0, 85)}...` : obj?.description || 'No description'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.duration || 'N/A'} months
+                          {obj?.type || 'N/A'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.isActive === 0 ? 'active' : 'unactive'}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div className="w-[80px]">
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.isRelease === 0 ? 'active' : 'unactive'}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={className}>
-                      <div>
-                        <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.rating || 'N/A'}
+                          {obj?.studio || 'N/A'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[120px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.releaseDate ? formatDate(obj.releaseDate) : ""}
+                          {obj?.dateAired ? formatDate(obj.dateAired) : ""}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
-                      <div className="w-[120px]">
+                      <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.expireDate ? formatDate(obj.expireDate) : ""}
+                          {obj?.status === 0 ? 'Airved' : 'Airving'}
                         </Typography>
                       </div>
                     </td>
-                    <td className={className} style={{ display: 'flex' }}>
+                    <td className={className}>
+                      <div className="w-[80px]">
+                        <Typography className="text-sm font-semibold text-blue-gray-600">
+                          {obj?.score || 'N/A'}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={className}>
+                      <div className="w-[80px]">
+                        <Typography className="text-sm font-semibold text-blue-gray-600">
+                          {obj?.duration || 'N/A'} minus
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={className}>
+                      <div className="w-[80px]">
+                        <Typography className="text-sm font-semibold text-blue-gray-600">
+                          {obj?.quality || 'N/A'}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={className} style={{ display: 'flex', alignItems: 'center', height: '92px' }}>
                       <IconButton variant="text" color="blue-gray" onClick={() => openEditModal(obj)}>
                         <PencilIcon className="h-5 w-5 text-blue-gray-500" />
                       </IconButton>

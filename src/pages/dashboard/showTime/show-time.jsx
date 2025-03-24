@@ -11,7 +11,7 @@ import { SearchButton } from "@/components/button";
 import { useDebounce } from "@/hooks/use-debound";
 import { CircularProgress, Pagination } from "@mui/material";
 import { PencilIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate, formatDateShowtime } from "@/utils/formatDate";
 import showTimeService from "@/services/showTimeService";
 import ModalShowTime from "./modal";
 
@@ -161,12 +161,12 @@ const ShowTimePage = () => {
                   <tr key={obj.id}>
                     <td className={className}>
                       <div className="flex items-center gap-4 w-[180px]">
-                        <Avatar src={obj?.movie?.image} alt={obj?.movie?.image} size="sm" variant="rounded" />
+                        <Avatar src={obj?.Movie?.image} alt={obj?.Movie?.image} size="sm" variant="rounded" />
                         <Typography 
                           className="text-sm font-semibold text-blue-gray-600 truncate"
-                          title={obj?.movie?.title || 'N/A'}
+                          title={obj?.Movie?.title || 'N/A'}
                         >
-                          {obj?.movie?.title || 'N/A'}                        
+                          {obj?.Movie?.title || 'N/A'}                        
                         </Typography>
                       </div>
                     </td>
@@ -174,23 +174,23 @@ const ShowTimePage = () => {
                       <div className="w-[120px]">
                         <Typography 
                           className="text-sm font-semibold text-blue-gray-600 truncate"
-                          title={obj?.cinema?.name || 'N/A'}
+                          title={obj?.Cinema?.name || 'N/A'}
                         >
-                          {obj?.cinema?.name || 'N/A'}
+                          {obj?.Cinema?.name || 'N/A'}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[120px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.timeStart ? formatDate(obj.timeStart) : ""}
+                          {obj?.timeStart ? formatDateShowtime(obj.timeStart) : ""}
                         </Typography>
                       </div>
                     </td>
                     <td className={className}>
                       <div className="w-[120px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.timeEnd ? formatDate(obj.timeEnd) : ""}
+                          {obj?.timeEnd ? formatDateShowtime(obj.timeEnd) : ""}
                         </Typography>
                       </div>
                     </td>
