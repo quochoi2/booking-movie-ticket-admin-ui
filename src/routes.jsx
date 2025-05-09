@@ -10,6 +10,7 @@ import { CinemaPage } from "./pages/dashboard/cinema";
 import { Notifications } from "./pages/dashboard/notification";
 import { MoviePage } from "./pages/dashboard/movie";
 import { ShowTime } from "./pages/dashboard/showTime";
+import { AuthorizePage } from "./pages/dashboard/authorize";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -24,6 +25,13 @@ export const routes = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
+        roles: ["admin", "employee"],
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Authorize",
+        path: "/authorize",
+        element: <AuthorizePage />,
         roles: ["admin"],
       },
       {
@@ -31,28 +39,28 @@ export const routes = [
         name: "Cinema",
         path: "/cinema",
         element: <CinemaPage />,
-        roles: ["admin"],
+        roles: ["admin", "employee"],
       },
       {
         icon: <FilmIcon {...icon} />,
         name: "Movie",
         path: "/movie",
         element: <MoviePage />,
-        roles: ["admin"],
+        roles: ["admin", "employee"],
       },
       {
         icon: <CalendarDaysIcon {...icon} />,
         name: "Show",
         path: "/show-time",
         element: <ShowTime />,
-        roles: ["admin"],
+        roles: ["admin", "employee"],
       },
       {
         icon: <InformationCircleIcon {...icon} />,
         name: "notifications",
         path: "/notifications",
         element: <Notifications />,
-        roles: ["user"],
+        roles: ["admin"],
       },
     ],
   },

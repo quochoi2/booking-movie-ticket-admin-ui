@@ -17,45 +17,63 @@ const showTimeService = {
   },
 
   create: async (data) => {
-    return await requestApiJson.post('/show-time', data)
-      .then(res => {
-        if (!res) {
-          console.error('Creating failed');
-          return;
-        }
-        return res;
-      }).catch(err => {
-        console.error('Error Creating:', err);
-        throw err;
-      });
+    try {
+      const res = await requestApiJson.post('/show-time/create', data);
+      return res.data;
+    } catch (err) {
+      if (err.response?.data) {
+        return err.response.data;
+      }
+      return {
+        code: -1,
+        message: 'Lỗi hệ thống khi tạo lịch chiếu'
+      };
+    }
   },
 
-  update: async (id, data) => {
-    return await requestApiJson.put('/show-time/' + id, data)
-      .then(res => {
-        if (!res) {
-          console.error('Updating failed');
-          return;
-        }
-        return res;
-      }).catch(err => {
-        console.error('Error Updating:', err);
-        throw err;
-      });
+  update: async (data) => {
+    try {
+      const res = await requestApiJson.put('/show-time/update/' + data.id, data)
+      return res.data;
+    } catch (err) {
+      if (err.response?.data) {
+        return err.response.data;
+      }
+      return {
+        code: -1,
+        message: 'Lỗi hệ thống khi tạo lịch chiếu'
+      };
+    }
   },
 
   delete: async (data) => {
-    return await requestApiJson.delete('/show-time/' + data.id)
-      .then(res => {
-        if (!res) {
-          console.error('Deleting failed');
-          return;
-        }
-        return res;
-      }).catch(err => {
-        console.error('Error Deleting:', err);
-        throw err;
-      });
+    try {
+      const res = await requestApiJson.delete('/show-time/delete/' + data.id);
+      return res.data;
+    } catch (err) {
+      if (err.response?.data) {
+        return err.response.data;
+      }
+      return {
+        code: -1,
+        message: err.message || 'Lỗi hệ thống'
+      };
+    }
+  },
+
+  autoGenerate: async (data) => {
+    try {
+      const res = await requestApiJson.post('/show-time/create-auto', data);
+      return res.data;
+    } catch (err) {
+      if (err.response?.data) {
+        return err.response.data;
+      }
+      return {
+        code: -1,
+        message: 'Lỗi hệ thống khi tạo lịch chiếu'
+      };
+    }
   },
 }
 

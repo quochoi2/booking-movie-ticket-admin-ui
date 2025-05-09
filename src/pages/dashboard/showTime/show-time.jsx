@@ -10,10 +10,12 @@ import { useEffect, useState } from "react";
 import { SearchButton } from "@/components/button";
 import { useDebounce } from "@/hooks/use-debound";
 import { CircularProgress, Pagination } from "@mui/material";
-import { PencilIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { formatDate, formatDateShowtime } from "@/utils/formatDate";
+import { PencilIcon, PlusCircleIcon, TrashIcon, FolderPlusIcon } from "@heroicons/react/24/solid";
+import { formatDateShowtime } from "@/utils/formatDate";
 import showTimeService from "@/services/showTimeService";
 import ModalShowTime from "./modal";
+import { message } from "antd";
+import AutoGenerateModal from "./autoGenerateModal";
 
 const ShowTimePage = () => {
   const [showTime, setShowTime] = useState([]);
@@ -30,6 +32,9 @@ const ShowTimePage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // auto generate
+  const [autoGenerateModalOpen, setAutoGenerateModalOpen] = useState(false);
 
   useEffect(() => {
     fetch(debouncedSearch, 1);
@@ -58,33 +63,46 @@ const ShowTimePage = () => {
     setPagination((prev) => ({ ...prev, currentPage: page }));
   };
    
-
   // create, update, delete
   const handleCreateOrUpdate = async (data) => {
     setLoading(true);
     try {
-      let updatedShowTime;
+      let response;
       if (data.id) {
-        updatedShowTime = await showTimeService.update(data);
+        response = await showTimeService.update(data);
       } else {
-        updatedShowTime = await showTimeService.create(data);
+        response = await showTimeService.create(data);
       }
-      fetch(debouncedSearch, pagination.currentPage);
+  
+      // Xử lý khi thành công
+      if (response?.code === 0) {
+        message.success(response.message);
+        fetch(debouncedSearch, pagination.currentPage);
+      } else if(response?.message && response?.conflictingSchedule) {
+        message.error(response?.message + ` và thời gian trùng với: ${response?.conflictingSchedule.start} đến ${response?.conflictingSchedule.end}` || 'Đã có lịch chiếu trùng', 5);
+      } else {
+        message.error(response.message || 'Cập nhật thất bại')
+      }
     } catch (err) {
-      console.error("Error creating/updating show time:", err);
+      console.error("Error:", err);
+      message.error(err.message || 'Lỗi hệ thống');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (data) => {
-    if (window.confirm("Are you sure you want to delete this show time?")) {
-      try {
-        await showTimeService.delete(data);
+    try {
+      const response = await showTimeService.delete(data);
+      
+      if (response.code === 0) {
+        message.success(response.message || "Xóa thành công!");
         fetch(debouncedSearch, pagination.currentPage);
-      } catch (err) {
-        console.error("Error deleting show time:", err);
+      } else {
+        message.error(response.message || "Không thể xóa!"); 
       }
+    } catch (error) {
+      message.error(error.message || "Lỗi khi xóa lịch chiếu");
     }
   };
   
@@ -94,15 +112,43 @@ const ShowTimePage = () => {
   };
 
   const openEditModal = (data) => {
+    // console.log(data);
     setEditData(data);
     setModalOpen(true);
   };
 
-  // filter time >
-  const filterShowTime = (data) => {
-    const now = new Date();
-    return data.filter((show) => new Date(show.timeEnd) > now);
-  };  
+  // auto generate
+  const openAutoGenerateModal = () => {
+    setAutoGenerateModalOpen(true);
+  };
+
+  const handleAutoGenerateSubmit = async (data) => {
+    try {
+      // Chuyển đổi cinemaIds từ string sang number nếu cần
+      const formattedData = {
+        ...data,
+        cinemaIds: data.cinemaIds.map(id => Number(id))
+      };
+      
+      const result = await showTimeService.autoGenerate(formattedData);
+      
+      if (result.code === 0) {
+        message.success(`Tạo thành công ${result.data.created.length} lịch chiếu`);
+        // Refresh danh sách
+        fetch(debouncedSearch, pagination.currentPage);
+        
+        // Hiển thị thông báo nếu có lịch trùng
+        if (result.data.conflicts?.length > 0) {
+          message.warning(`Có ${result.data.conflicts.length} lịch bị trùng không thể tạo`);
+        }
+      } else {
+        message.error(result.message || 'Có lỗi xảy ra');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      message.error('Lỗi hệ thống khi tạo lịch tự động');
+    }
+  };
 
   return ( 
     <div className="relative mt-12 mb-8 flex flex-col gap-12">
@@ -115,6 +161,13 @@ const ShowTimePage = () => {
       <div className="absolute -top-[95px] flex justify-end right-[255px]">
         <div className="flex justify-between gap-3">
           <div>
+            <IconButton
+              variant="text"
+              color="blue-gray"
+              onClick={openAutoGenerateModal}
+            >
+              <FolderPlusIcon className="h-6 w-6 text-blue-gray-500" />
+            </IconButton>
             <IconButton
               variant="text"
               color="blue-gray"
@@ -222,11 +275,18 @@ const ShowTimePage = () => {
           </div>
         </CardBody>
       </Card>
+
       <ModalShowTime
         open={isModalOpen}
         onClose={() => setModalOpen(false)}
         onSubmit={handleCreateOrUpdate}
         initialData={editData}
+      />
+
+      <AutoGenerateModal
+        open={autoGenerateModalOpen}
+        handleOpen={() => setAutoGenerateModalOpen(!autoGenerateModalOpen)}
+        onSubmit={handleAutoGenerateSubmit}
       />
     </div>
   );

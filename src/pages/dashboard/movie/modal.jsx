@@ -78,6 +78,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
     onSubmit({ ...formData });
     onClose();
     resetForm();
+    // console.log({ ...formData });
   };
 
   return (

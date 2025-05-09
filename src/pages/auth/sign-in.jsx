@@ -20,7 +20,7 @@ export function SignIn() {
     try {
       const res = await AuthService.login(username, password);
       console.log(res);
-      if (res?.role !== "admin") {
+      if (res?.role !== "admin" && res?.role !== "employee") {
         alert("Bạn không có quyền truy cập vào trang này.");
         return; 
       }

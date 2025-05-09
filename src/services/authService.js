@@ -10,9 +10,8 @@ const AuthService = {
         const { accessToken } = response.data.token;
         const userInfo = jwtDecode(accessToken);
 
-        if (userInfo.role !== "admin") {
-          console.error("User is not admin, access denied.");
-          throw new Error("Access denied: User is not an admin.");
+        if (userInfo.role !== "admin" && userInfo.role !== "employee") {
+          console.error("You are not admin or employee, access denied.");
         }
 
         localStorage.setItem("accessToken", accessToken);

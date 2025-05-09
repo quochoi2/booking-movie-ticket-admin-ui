@@ -55,7 +55,6 @@ const CinemaPage = () => {
     setPagination((prev) => ({ ...prev, currentPage: page }));
   };
    
-
   // create, update, delete
   const handleCreateOrUpdate = async (data) => {
     setLoading(true);

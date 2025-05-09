@@ -7,6 +7,18 @@ export const formatDate = (dateString) => {
   })
 }
 
+export const formatTime = (date) => {
+  return new Date(date).toLocaleString('vi-VN', {
+    timeZone: 'Asia/Ho_Chi_Minh',
+    hour12: false,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).replace(',', '');
+}
+
 export const formatDateToInput = (date) => {
   const d = new Date(date)
   const year = d.getFullYear()

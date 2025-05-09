@@ -24,7 +24,6 @@ const parseInputToDate = (input) => {
 const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
   const [formData, setFormData] = useState({
     timeStart: "",
-    timeEnd: "",
     movieId: "",
     cinemaId: "",
   });  
@@ -36,12 +35,11 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
     if (initialData) {
       setFormData({
         timeStart: initialData.timeStart ? formatDateToInput(initialData.timeStart) : "",
-        timeEnd: initialData.timeEnd ? formatDateToInput(initialData.timeEnd) : "",
         movieId: initialData.movieId || "",
         cinemaId: initialData.cinemaId || "",
       });
     } else {
-      setFormData({ timeStart: "", timeEnd: "", movieId: "", cinemaId: "" });
+      setFormData({ timeStart: "", movieId: "", cinemaId: "" });
     }
   }, [initialData]);
 
@@ -63,20 +61,21 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    if (!formData.timeStart || !formData.timeEnd || !formData.movieId || !formData.cinemaId) {
+  const handleSubmit = async () => {
+    if (!formData.timeStart || !formData.movieId || !formData.cinemaId) {
       alert(`All fields are required`);
       return;
     }
     const dataToSubmit = {
       ...formData,
+      id: initialData?.id,
       timeStart: parseInputToDate(formData.timeStart),
-      timeEnd: parseInputToDate(formData.timeEnd),
     };
 
-    onSubmit(dataToSubmit);
+    // console.log(dataToSubmit);
+    await onSubmit(dataToSubmit);
     onClose();
-    setFormData({ timeStart: "", timeEnd: "", movieId: "", cinemaId: "" });
+    setFormData({ timeStart: "", movieId: "", cinemaId: "" });
   };
 
   return (
@@ -94,16 +93,6 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
               type="datetime-local"
               name="timeStart"
               value={formData.timeStart}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-              InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-              label="Time End"
-              type="datetime-local"
-              name="timeEnd"
-              value={formData.timeEnd}
               onChange={handleChange}
               fullWidth
               margin="normal"
