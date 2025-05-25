@@ -1,65 +1,13 @@
 import { requestApiJson } from "@/utils/requestApi";
 
 const dashboardService = {
-  getRevenueAndTicketAndUserToday: async () => {
-    return await requestApiJson.get(`/statistic/today`)
-      .then(res => {
-        if (!res) {
-          console.error('Fetching failed: No data');
-          return;
-        }
-        return res.data;
-      })
-      .catch(err => {
-        console.error('Error Fetching:', err);
-        throw err;
-      });
-  },
+  statisticToday: async () => await requestApiJson.get("/statistic/public/statistic-today"),
 
-  statisticByWeek: async (data) => {
-    return await requestApiJson.post('statistic/week', data)
-      .then(res => {
-        if (!res) {
-          console.error('Fetching failed: No data');
-          return;
-        }
-        return res.data;
-      })
-      .catch(err => {
-        console.error('Error Fetching by Week:', err);
-        throw err;
-      });
-  },
+  statisticRenevue: async (type, year, month) =>
+    await requestApiJson.get(`/statistic/public/statistic-revenue-by-week-month-year?type=${type}&year=${year}&month=${month}`),
 
-  statisticByMonth: async (data) => {
-    return await requestApiJson.post('statistic/month', data)
-      .then(res => {
-        if (!res) {
-          console.error('Fetching failed: No data');
-          return;
-        }
-        return res.data;
-      })
-      .catch(err => {
-        console.error('Error Fetching by Month:', err);
-        throw err;
-      });
-  },
+  getYears: async () => await requestApiJson.get("/statistic/public/statistic-order-by-year"),
+};
 
-  statisticByYear: async (data) => {
-    return await requestApiJson.post('statistic/year', data)
-      .then(res => {
-        if (!res) {
-          console.error('Fetching failed: No data');
-          return;
-        }
-        return res.data;
-      })
-      .catch(err => {
-        console.error('Error Fetching by Year:', err);
-        throw err;
-      });
-  },
-}
 
 export default dashboardService;

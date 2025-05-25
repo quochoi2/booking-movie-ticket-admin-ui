@@ -31,326 +31,125 @@ import { UserContext } from "@/context/authContext";
 import dashboardService from "@/services/dashboardService";
 import { chartsConfig } from "@/configs";
 import { getCurrentWeekNumber } from "@/utils/formatDate";
+import { RevenueStatistics } from "@/components/RevenueStatistics";
 
 export function Home() {
-  const { user } = useContext(UserContext);
-  const [statisticDataToday, setStatisticDataToday] = useState(
-    {
-      today: {
-        totalRevenueToday: 0,
-        totalTicketsSoldToday: 0,
-        totalNewUserToday: 0,
-      },
-      difference: {
-        revenueDifference: 0,
-        ticketsDifference: 0,
-        usersDifference: 0,
-      },
+  const [loading, setLoading] = useState(true);
+
+  // form
+  const [statisticData, setStatisticData] = useState({
+    today: {
+      date: "",
+      totalRevenue: 0,
+      totalTickets: 0,
+      totalCustomers: 0
+    },
+    yesterday: {
+      date: "",
+      totalRevenueYesterday: 0,
+      totalTicketsYesterday: 0,
+      totalCustomersYesterday: 0
     }
-  );
-  const [chartDataByWeek, setChartDataByWeek] = useState({
-    series: [],
-    options: {
-      ...chartsConfig,
-    },
-  });
-  const [chartDataByMonth, setChartDataByMonth] = useState({
-    series: [],
-    options: {
-      ...chartsConfig,
-    },
-  });
-  const [chartDataByYear, setChartDataByYear] = useState({
-    series: [],
-    options: {
-      ...chartsConfig,
-    },
   });
 
-  const [selectedWeek, setSelectedWeek] = useState(getCurrentWeekNumber());
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedOption, setSelectedOption] = useState('week');
-
-  // Fetch statistics by week
-  const fetchStatisticChartDataByWeek = async (year = 2024, week = 51) => {
-    try {
-      const res = await dashboardService.statisticByWeek({ year, week });
-      if (res && res.data) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await dashboardService.statisticToday();
         // console.log(res.data);
-        const categories = res.data.map((item) => item.day);
-        const totalTickets = res.data.map((item) => item.totalTicket);
-        const totalRevenues = res.data.map((item) => item.totalRevenue);
-  
-        const chartOptions = {
-          ...chartsConfig,
-          series: [
-            { name: "Total Tickets", data: totalTickets },
-            { name: "Total Revenue", data: totalRevenues },
-          ],
-          options: {
-            ...chartsConfig, 
-            xaxis: {
-              ...chartsConfig.xaxis,
-              categories: categories,
-            },
-          },
-        };
-  
-        setChartDataByWeek(chartOptions);
+        // Cấu trúc lại dữ liệu để dễ sử dụng
+        setStatisticData({
+          today: res.data[0],
+          yesterday: res.data[1],
+        });
+      } catch (error) {
+        console.error("Error fetching statistics:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Failed to fetch weekly statistics:", error);
-    }
-  };
-
-  // Fetch statistics by month
-  const fetchStatisticChartDataByMonth = async (year = 2024, month = 12) => {
-    try {
-      const res = await dashboardService.statisticByMonth({ year, month });
-      if (res && res.data) {
-        const categories = res.data.map((item) => item.day);
-        const totalTickets = res.data.map((item) => item.totalTicket);
-        const totalRevenues = res.data.map((item) => item.totalRevenue);
-
-        const chartOptions = {
-          ...chartsConfig,
-          series: [
-            { name: "Total Tickets", data: totalTickets },
-            { name: "Total Revenue", data: totalRevenues },
-          ],
-          options: {
-            ...chartsConfig,
-            xaxis: {
-              ...chartsConfig.xaxis,
-              categories: categories,
-            },
-          },
-        };
-
-        setChartDataByMonth(chartOptions);
-      }
-    } catch (error) {
-      console.error("Failed to fetch monthly statistics:", error);
-    }
-  };
-
-  // Fetch statistics by year
-  const fetchStatisticChartDataByYear = async (year = 2024) => {
-    try {
-      const res = await dashboardService.statisticByYear({ year });
-      if (res && res.updatedData) {
-        const categories = res.updatedData.map((item) => item.month);
-        const totalTickets = res.updatedData.map((item) => item.totalTicket);
-        const totalRevenues = res.updatedData.map((item) => item.totalRevenue);
-
-        const chartOptions = {
-          ...chartsConfig,
-          series: [
-            { name: "Total Tickets", data: totalTickets },
-            { name: "Total Revenue", data: totalRevenues },
-          ],
-          options: {
-            ...chartsConfig,
-            xaxis: {
-              ...chartsConfig.xaxis,
-              categories: categories,
-            },
-          },
-        };
-
-        setChartDataByYear(chartOptions);
-      }
-    } catch (error) {
-      console.error("Failed to fetch yearly statistics:", error);
-    }
-  };
-
-   // Fetch statistics for today
-  const fetchStatisticDataToday = async () => {
-    try {
-      dashboardService.getRevenueAndTicketAndUserToday()
-        .then((res) => {
-          // console.log(res);
-          setStatisticDataToday(res);
-        })
-        .catch(err => console.log("Error fetching: ", err))
-      
-    } catch (error) {
-      console.error("Failed to fetch statistics:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchStatisticDataToday();
+    };
+    
+    fetchData();
   }, []);
-  
-  useEffect(() => {
-    fetchStatisticChartDataByWeek(selectedYear, selectedWeek);
-    fetchStatisticChartDataByMonth(selectedYear, selectedMonth);
-    fetchStatisticChartDataByYear(selectedYear);
-  }, [selectedYear, selectedMonth, selectedWeek]);
+
+  // Tính toán phần trăm thay đổi
+  const calculateChange = (todayValue, yesterdayValue) => {
+    if (yesterdayValue === 0) return 100; // Tránh chia cho 0
+    return ((todayValue - yesterdayValue) / yesterdayValue * 100).toFixed(1);
+  };
+
+  // Định dạng tiền tệ
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+  };
 
   return (
     <div className="mt-8">
-      {/* render statistic today */}
+      {/* Render statistic today */}
       <div>
-        {statisticDataToday.today ? (
+        {loading ? (
+          <div>Loading statistics...</div>
+        ) : (
           <div className="mb-6 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
             <StatisticsCard
-              key={"Today's Money"}
-              icon={<BanknotesIcon className="w-6 h-6 text-white"/>}
-              title={"Today's Money"}
-              value={"$" + statisticDataToday.today.totalRevenueToday}
+              key="Today's Revenue"
+              icon={<BanknotesIcon className="w-6 h-6 text-white" />}
+              title="Today's Revenue"
+              value={formatCurrency(statisticData.today.totalRevenue)}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
-                  <strong className={"text-green-500"}>{"$" + statisticDataToday.difference.revenueDifference}</strong>
-                  &nbsp;{"than last today"}
+                  <strong className={
+                    statisticData.today.totalRevenue >= statisticData.yesterday.totalRevenueYesterday ? 
+                    "text-green-500" : "text-red-500"
+                  }>{calculateChange(statisticData.today.totalRevenue, statisticData.yesterday.totalRevenueYesterday)}%
+                  </strong>
+                  &nbsp;{statisticData.today.totalRevenue >= statisticData.yesterday.totalRevenueYesterday ? 
+                  "increase from yesterday" : "decrease from yesterday"}
                 </Typography>
               }
             />
             <StatisticsCard
-              key={"Today's Sales"}
-              icon={<ChartBarIcon className="w-6 h-6 text-white"/>}
-              title={"Today's Sales"}
-              value={"$" + statisticDataToday.today.totalTicketsSoldToday}
+              key="Today's Tickets"
+              icon={<ChartBarIcon className="w-6 h-6 text-white" />}
+              title="Today's Tickets"
+              value={statisticData.today.totalTickets.toString()}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
-                  <strong className={"text-green-500"}>{"$" + statisticDataToday.difference.ticketsDifference}</strong>
-                  &nbsp;{"than last today"}
+                  <strong className={
+                    statisticData.today.totalTickets >= statisticData.yesterday.totalTicketsYesterday ? 
+                    "text-green-500" : "text-red-500"
+                  }>{calculateChange(statisticData.today.totalTickets, statisticData.yesterday.totalTicketsYesterday)}%
+                  </strong>
+                  &nbsp;{statisticData.today.totalTickets >= statisticData.yesterday.totalTicketsYesterday ? 
+                  "increase from yesterday" : "decrease from yesterday"}
                 </Typography>
               }
             />
             <StatisticsCard
-              key={"Today's New User"}
-              icon={<UserIcon className="w-6 h-6 text-white"/>}
-              title={"Today's New User"}
-              value={"$" + statisticDataToday.today.totalNewUserToday}
+              key="Today's Customers"
+              icon={<UserIcon className="w-6 h-6 text-white" />}
+              title="Today's Customers"
+              value={statisticData.today.totalCustomers.toString()}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
-                  <strong className={"text-green-500"}>{"$" + statisticDataToday.difference.usersDifference}</strong>
-                  &nbsp;{"than last today"}
+                  <strong className={
+                    statisticData.today.totalCustomers >= statisticData.yesterday.totalCustomersYesterday ? 
+                    "text-green-500" : "text-red-500"
+                  }>
+                    {calculateChange(statisticData.today.totalCustomers, statisticData.yesterday.totalCustomersYesterday)}%
+                  </strong>
+                  &nbsp;{statisticData.today.totalCustomers >= statisticData.yesterday.totalCustomersYesterday ? 
+                  "increase from yesterday" : "decrease from yesterday"}
                 </Typography>
               }
             />
           </div>
-        ): (
-          <div>Loading statistic for today...</div>
         )}
       </div>
 
       {/* render statistic week, month, year by line chart */}
       <div className="mb-8">
-        <div className="flex justify-between mb-4 space-x-4">
-          <div className="select-none">
-            {selectedOption === 'week' || selectedOption === 'month' || selectedOption === 'year' ? (
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="py-2 px-4 h-10 border rounded-md mr-5 shadow-sm cursor-pointer overflow-y-auto focus:outline-none"
-              >
-                {Array.from({ length: new Date().getFullYear() - 1999 }, (_, index) => 2000 + index)
-                  .reverse()
-                  .map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-              </select>
-            ) : null}
-
-            {selectedOption === 'month' ? (
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="py-2 px-4 h-10 border rounded-md shadow-sm cursor-pointer overflow-y-auto focus:outline-none"
-              >
-                {[...Array(12).keys()].map((month) => (
-                  <option key={month} value={month + 1}>
-                    {new Date(0, month).toLocaleString("en-US", { month: "long" })}
-                  </option>
-                ))}
-              </select>
-            ) : null}
-
-            {selectedOption === 'week' ? (
-              <select
-                value={selectedWeek}  
-                onChange={(e) => setSelectedWeek(Number(e.target.value))}
-                className="py-2 px-4 h-10 border rounded-md shadow-sm cursor-pointer overflow-y-auto focus:outline-none"
-              >
-                {[...Array(52).keys()].map((week) => (
-                  <option key={week} value={week + 1}>
-                    Week {week + 1}
-                  </option>
-                ))}
-              </select>
-            ) : null}
-          </div>
-
-          <div className="grid grid-cols-3 bg-gray-200 rounded-md w-96">
-            <button
-              className={`px-4 rounded-md ${
-                selectedOption === "week"
-                  ? "bg-white shadow text-black"
-                  : "text-gray-500 hover:text-black"
-              }`}
-              onClick={() => setSelectedOption("week")}
-            >
-              Week
-            </button>
-            <button
-              className={`px-4 rounded-md ${
-                selectedOption === "month"
-                  ? "bg-white shadow text-black"
-                  : "text-gray-500 hover:text-black"
-              }`}
-              onClick={() => setSelectedOption("month")}
-            >
-              Month
-            </button>
-            <button
-              className={`px-4 rounded-md ${
-                selectedOption === "year"
-                  ? "bg-white shadow text-black"
-                  : "text-gray-500 hover:text-black"
-              }`}
-              onClick={() => setSelectedOption("year")}
-            >
-              Year
-            </button>
-          </div>
-        </div>
-
-        <div>
-          {selectedOption === 'week' && (
-            <StatisticsChart
-              color="white"
-              chart={chartDataByWeek}
-              title="Weekly Statistics"
-              description="Total tickets and revenue for the selected week"
-              footer="Updated just now"
-            />
-          )}
-          {selectedOption === 'month' && (
-            <StatisticsChart
-              color="white"
-              chart={chartDataByMonth}
-              title="Monthly Statistics"
-              description="Total tickets and revenue for the selected month"
-              footer="Updated just now"
-            />
-          )}
-          {selectedOption === 'year' && (
-            <StatisticsChart
-              color="white"
-              chart={chartDataByYear}
-              title="Yearly Statistics"
-              description="Total tickets and revenue for the selected year"
-              footer="Updated just now"
-            />
-          )}
-        </div>
+        <RevenueStatistics />
       </div>
 
       <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
