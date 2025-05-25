@@ -89,7 +89,7 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
         ) : (
           <>
             <TextField
-              label="Time Start"
+              label="Thời gian chiếu"
               type="datetime-local"
               name="timeStart"
               value={formData.timeStart}
@@ -99,7 +99,7 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
               InputLabelProps={{ shrink: true }}
             />
             <FormControl fullWidth margin="normal">
-              <InputLabel id="movie-select-label">Movie</InputLabel>
+              <InputLabel id="movie-select-label">Phim chiếu</InputLabel>
               <Select
                 labelId="movie-select-label"
                 name="movieId"
@@ -111,12 +111,12 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
                       {movie.title}
                     </MenuItem>
                   )) : (
-                    <MenuItem>Not found movies</MenuItem>
+                    <MenuItem>Không tìm thấy phim chiếu</MenuItem>
                   )}
               </Select>
             </FormControl>
             <FormControl fullWidth margin="normal">
-              <InputLabel id="cinema-select-label">Cinema</InputLabel>
+              <InputLabel id="cinema-select-label">Rạp chiếu</InputLabel>
               <Select
                 labelId="cinema-select-label"
                 name="cinemaId"
@@ -128,7 +128,7 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
                     {cinema.name}
                   </MenuItem>
                 )) : (
-                  <MenuItem>Not found cinemas</MenuItem>
+                  <MenuItem>Không tìm thấy rạp chiếu</MenuItem>
                 )}
               </Select>
             </FormControl>
@@ -137,10 +137,10 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          Cancel
+          Huỷ
         </Button>
         <Button onClick={handleSubmit} color="primary">
-          {initialData ? "Update" : "Create"}
+          {initialData ? "Cập nhật" : "Tạo"}
         </Button>
       </DialogActions>
     </Dialog>

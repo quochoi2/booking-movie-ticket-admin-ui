@@ -58,32 +58,32 @@ const ModalCinema = ({ open, onClose, onSubmit, initialData }) => {
       <DialogTitle>{initialData ? "Edit Cinema" : "Create Cinema"}</DialogTitle>
       <DialogContent>
         <TextField
-          label="Cinema Name"
+          label="Tên rạp"
           name="name"
           fullWidth
           margin="normal"
           value={formData.name}
           onChange={handleChange}
           error={errors.name}
-          helperText={errors.name && "Cinema Name is required."}
+          helperText={errors.name && "Yêu cầu nhập tên rạp."}
         />
         <TextField
-          label="Address"
+          label="Địa chỉ"
           name="address"
           fullWidth
           margin="normal"
           value={formData.address}
           onChange={handleChange}
           error={errors.address}
-          helperText={errors.address && "Address is required."}
+          helperText={errors.address && "Yêu cầu nhập địa chỉ."}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          Cancel
+          Huỷ
         </Button>
         <Button onClick={handleSubmit} color="primary">
-          {initialData ? "Update" : "Create"}
+          {initialData ? "Cập nhật" : "Tạo"}
         </Button>
       </DialogActions>
     </Dialog>

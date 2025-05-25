@@ -141,14 +141,14 @@ const AuthorizePage = () => {
       <Card>
         <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
           <Typography variant="h5" color="white">
-            Employee Table
+            Danh sách Nhân Viên
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["#", "name", "email", "role", "permission", "actions"].map((el) => (
+                {["#", "tên", "email", "vai trò", "quyền", "hành động"].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"

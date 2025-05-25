@@ -124,7 +124,7 @@
 
     return (
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>{"Permission of Employee"}</DialogTitle>
+        <DialogTitle>{"Danh sách quyền"}</DialogTitle>
         <DialogContent>
         {initialLoading ? (
             <div className="flex justify-center py-8">
@@ -174,7 +174,7 @@
             disabled={loading || initialLoading}
             endIcon={loading && <CircularProgress size={20} />}
           >
-            {"Update"}
+            {"Cập nhật"}
           </Button>
         </DialogActions>
       </Dialog>

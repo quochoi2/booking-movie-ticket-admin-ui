@@ -88,13 +88,15 @@ export function Home() {
       {/* Render statistic today */}
       <div>
         {loading ? (
-          <div>Loading statistics...</div>
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
         ) : (
           <div className="mb-6 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
             <StatisticsCard
               key="Today's Revenue"
               icon={<BanknotesIcon className="w-6 h-6 text-white" />}
-              title="Today's Revenue"
+              title="Doanh thu hôm nay"
               value={formatCurrency(statisticData.today.totalRevenue)}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
@@ -104,14 +106,14 @@ export function Home() {
                   }>{calculateChange(statisticData.today.totalRevenue, statisticData.yesterday.totalRevenueYesterday)}%
                   </strong>
                   &nbsp;{statisticData.today.totalRevenue >= statisticData.yesterday.totalRevenueYesterday ? 
-                  "increase from yesterday" : "decrease from yesterday"}
+                  "so với hôm qua" : "so với hôm qua"}
                 </Typography>
               }
             />
             <StatisticsCard
               key="Today's Tickets"
               icon={<ChartBarIcon className="w-6 h-6 text-white" />}
-              title="Today's Tickets"
+              title="Vé bán hôm nay"
               value={statisticData.today.totalTickets.toString()}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
@@ -121,14 +123,14 @@ export function Home() {
                   }>{calculateChange(statisticData.today.totalTickets, statisticData.yesterday.totalTicketsYesterday)}%
                   </strong>
                   &nbsp;{statisticData.today.totalTickets >= statisticData.yesterday.totalTicketsYesterday ? 
-                  "increase from yesterday" : "decrease from yesterday"}
+                  "so với hôm qua" : "so với hôm qua"}
                 </Typography>
               }
             />
             <StatisticsCard
               key="Today's Customers"
               icon={<UserIcon className="w-6 h-6 text-white" />}
-              title="Today's Customers"
+              title="Khách mua hôm nay"
               value={statisticData.today.totalCustomers.toString()}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
@@ -139,7 +141,7 @@ export function Home() {
                     {calculateChange(statisticData.today.totalCustomers, statisticData.yesterday.totalCustomersYesterday)}%
                   </strong>
                   &nbsp;{statisticData.today.totalCustomers >= statisticData.yesterday.totalCustomersYesterday ? 
-                  "increase from yesterday" : "decrease from yesterday"}
+                  "so với hôm qua" : "so với hôm qua"}
                 </Typography>
               }
             />

@@ -88,7 +88,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* title  */}
         <div className="mt-5">
           <TextField
-            label="Title"
+            label="Tên phim"
             name="title"
             fullWidth
             value={formData.title}
@@ -99,7 +99,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* titleAnother  */}
         <div className="mt-5">
           <TextField
-            label="Title Another"
+            label="Tên khác"
             name="titleAnother"
             fullWidth
             value={formData.titleAnother}
@@ -110,7 +110,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* Video Link */}
         <div className="mt-5">
           <TextField
-            label="Video Link"
+            label="Link video"
             name="video"
             fullWidth
             value={formData.video}
@@ -120,7 +120,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* Decription */}
         <div className="mt-5">
           <TextField
-            label="Description"
+            label="Mô tả"
             name="description"
             fullWidth
             multiline
@@ -133,7 +133,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* type  */}
         <div className="mt-5">
           <TextField
-            label="Type"
+            label="Kiểu"
             name="type"
             fullWidth
             value={formData.type}
@@ -155,7 +155,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* dateAired */}
         <div className="mt-5">
           <TextField
-            label="Date Aired"
+            label="Ngày công chiếu"
             name="dateAired"
             type="date"
             fullWidth
@@ -181,7 +181,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* score  */}
         <div className="mt-5">
           <TextField
-            label="Score"
+            label="Điểm số"
             name="score"
             fullWidth
             value={formData.score}
@@ -192,7 +192,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* Duration */}
         <div className="mt-5">
           <TextField
-            label="Duration"
+            label="Thời gian"
             name="duration"
             fullWidth
             value={formData.duration}
@@ -209,7 +209,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         {/* quality  */}
         <div className="mt-5">
           <TextField
-            label="quality"
+            label="Chất lượng"
             name="quality"
             fullWidth
             value={formData.quality}
@@ -231,13 +231,13 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          Cancel
+          Huỷ
         </Button>
         <Button 
           onClick={handleSubmit} 
           color="primary"
         > 
-          {initialData ? "Update" : "Create"}
+          {initialData ? "Cập nhật" : "Tạo"}
         </Button>
       </DialogActions>
     </Dialog>
