@@ -1,0 +1,1 @@
+export { default as CheckPayemnt } from './CheckPayment'

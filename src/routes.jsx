@@ -7,10 +7,10 @@ import {
 } from "@heroicons/react/24/solid";
 import { Home } from "./pages/dashboard/home";
 import { CinemaPage } from "./pages/dashboard/cinema";
-import { Notifications } from "./pages/dashboard/notification";
 import { MoviePage } from "./pages/dashboard/movie";
 import { ShowTime } from "./pages/dashboard/showTime";
 import { AuthorizePage } from "./pages/dashboard/authorize";
+import { CheckPayemnt } from "./pages/dashboard/check-payment";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -58,8 +58,8 @@ export const routes = [
       {
         icon: <InformationCircleIcon {...icon} />,
         name: "Xác nhận",
-        path: "/notifications",
-        element: <Notifications />,
+        path: "/check-payment",
+        element: <CheckPayemnt />,
         roles: ["admin"],
       },
     ],

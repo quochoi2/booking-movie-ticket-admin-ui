@@ -1,8 +1,8 @@
-import { requestApiFile } from "@/utils/requestApi";
+import { requestApiFile, requestApiJson } from "@/utils/requestApi";
 
 const movieService = {
   getAll: async (search = '', page = 1, pageSize = 5) => {
-    return await requestApiFile.get(`/movie/search?search=${search}&page=${page}&pageSize=${pageSize}`)
+    return await requestApiJson.get(`/movie/search?search=${search}&page=${page}&pageSize=${pageSize}`)
       .then(res => {
         if (!res) {
           console.error('Fetching failed: No data');

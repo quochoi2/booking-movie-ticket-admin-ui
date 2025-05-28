@@ -45,9 +45,9 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([movieService.getAll(), cinemaService.getAll()])
+    Promise.all([movieService.getAll('', 1, 100), cinemaService.getAll('', 1, 100)])
       .then(([moviesRes, cinemasRes]) => {
-        // console.log(moviesRes.data);
+        console.log(moviesRes.data);
         const filteredMovies = (moviesRes.data || []).filter(movie => movie.status === 0);
         setMovies(filteredMovies);
         setCinemas(cinemasRes.data || []);
