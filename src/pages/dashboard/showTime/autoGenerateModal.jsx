@@ -31,7 +31,7 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
 
   useEffect(() => {
     if (open) {
-      movieService.getAll()
+      movieService.getAll('', 1, 100)
         .then((res) => {
           // console.log("Movies fetched:", res);
           setMovies(res.data);
@@ -40,7 +40,7 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
           console.error("Error fetching movies:", err);
         });
 
-      cinemaService.getAll()
+      cinemaService.getAll('', 1, 100)
         .then((res) => {
           // console.log("Cinemas fetched:", res);
           setCinemas(res.data);

@@ -112,11 +112,11 @@ const QRScanner = () => {
       };
     
       const response = await checkPaymentService.checkQR(requestData);
-      // console.log('Phản hồi từ server:', response.data.order.name);
+      // console.log('Phản hồi từ server:', response.data);
 
       if (response.data.success) {
         showTempMessage('success', `Xác minh thành công cho ${response.data.order.name}`);
-        
+        alert('Xác nhận vé thành công');
       } else {
         showTempMessage('error', 'Mã QR không hợp lệ. Vui lòng thử lại.');
         setTimeout(() => setIsScanning(true), 2000);

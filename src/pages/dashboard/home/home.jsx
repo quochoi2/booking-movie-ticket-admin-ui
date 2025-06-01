@@ -154,7 +154,7 @@ export function Home() {
         <RevenueStatistics />
       </div>
 
-      <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
+      {/* <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 shadow-sm">
           <CardHeader
             floated={false}
@@ -339,7 +339,7 @@ export function Home() {
             )}
           </CardBody>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

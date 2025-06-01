@@ -28,12 +28,17 @@ import {
 import LogoutButton from "../logout/logout-button";
 import { useContext } from "react";
 import { UserContext } from "@/context/authContext";
+import { pathToVietnamese } from "@/utils/pathTranslations";
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+
+  // Lấy tên tiếng Việt tương ứng
+  const vietnameseLayout = pathToVietnamese[layout] || layout;
+  const vietnamesePage = pathToVietnamese[page] || page;
 
   const { user } = useContext(UserContext);
 
@@ -61,7 +66,7 @@ export function DashboardNavbar() {
                 color="blue-gray"
                 className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
               >
-                {layout}
+                {vietnameseLayout}
               </Typography>
             </Link>
             <Typography
@@ -69,11 +74,11 @@ export function DashboardNavbar() {
               color="blue-gray"
               className="font-normal"
             >
-              {page}
+              {vietnamesePage}
             </Typography>
           </Breadcrumbs>
           <Typography variant="h6" color="blue-gray">
-            {page}
+            {vietnamesePage}
           </Typography>
         </div>
         <div className="flex items-center">
