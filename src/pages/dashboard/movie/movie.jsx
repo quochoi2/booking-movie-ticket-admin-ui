@@ -223,7 +223,7 @@ const MoviePage = () => {
                     <td className={className}>
                       <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.status === 0 ? 'Airved' : 'Airving'}
+                          {obj?.status === 0 ? 'Đã công chiếu' : 'Sắp ra mắt'}
                         </Typography>
                       </div>
                     </td>
@@ -237,7 +237,7 @@ const MoviePage = () => {
                     <td className={className}>
                       <div className="w-[80px]">
                         <Typography className="text-sm font-semibold text-blue-gray-600">
-                          {obj?.duration || 'N/A'} minus
+                          {obj?.duration || 'N/A'} phút
                         </Typography>
                       </div>
                     </td>

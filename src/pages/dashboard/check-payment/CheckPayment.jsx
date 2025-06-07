@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import jsQR from 'jsqr'; // Thêm dòng này
 import checkPaymentService from '@/services/checkPaymentService';
+import CinemaSelector from '@/components/CinemaSelector/CinemaSelector';
 
 const QRScanner = () => {
   const videoRef = useRef(null);
@@ -11,6 +12,14 @@ const QRScanner = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [cameraDevices, setCameraDevices] = useState([]);
   const [selectedDevice, setSelectedDevice] = useState('');
+
+  const [selectedCinema, setSelectedCinema] = useState(null);
+
+  // Xử lý khi chọn rạp
+  const handleCinemaSelect = (cinema, movie) => {
+    setSelectedCinema(cinema);
+    // Có thể làm gì đó với thông tin phim nếu cần
+  };
 
   // Hàm hiển thị thông báo tạm thời
   const showTempMessage = (type, message) => {
@@ -116,15 +125,14 @@ const QRScanner = () => {
 
       if (response.data.success) {
         showTempMessage('success', `Xác minh thành công cho ${response.data.order.name}`);
-        alert('Xác nhận vé thành công');
       } else {
         showTempMessage('error', 'Mã QR không hợp lệ. Vui lòng thử lại.');
-        setTimeout(() => setIsScanning(true), 2000);
+        setTimeout(() => setIsScanning(true), 5000);
       }
     } catch (err) {
       showTempMessage('error', 'Lỗi khi xác minh QR. Vui lòng thử lại.');
       console.error(err);
-      setTimeout(() => setIsScanning(true), 2000);
+      setTimeout(() => setIsScanning(true), 5000);
     }
   };
 
@@ -154,6 +162,9 @@ const QRScanner = () => {
     <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold text-center mb-4">Quét mã QR</h1>
       
+      {/* Thêm component chọn rạp */}
+      <CinemaSelector onCinemaSelect={handleCinemaSelect} />
+
       <div className="relative mb-4">
         <video
           ref={videoRef}

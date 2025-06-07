@@ -15,7 +15,7 @@ const SearchButton = ({ onSearch }) => {
     <>
       <div className="mr-auto md:mr-4 md:w-56">
         <Input 
-          label="Search..." 
+          label="Nhập thông tin..." 
           value={searchValue}
           onChange={handleSearchChange}  
         />
