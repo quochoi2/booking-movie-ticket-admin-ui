@@ -80,7 +80,7 @@ const ModalShowTime = ({ open, onClose, onSubmit, initialData }) => {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialData ? "Edit ShowTime" : "Create ShowTime"}</DialogTitle>
+      <DialogTitle>{initialData ? "Cập nhật" : "Tạo mới"}</DialogTitle>
       <DialogContent>
         {loading ? (
           <div className="flex justify-center py-4">

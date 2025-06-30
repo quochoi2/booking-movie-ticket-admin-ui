@@ -51,7 +51,7 @@ export function Home() {
 
   // Tính toán phần trăm thay đổi
   const calculateChange = (todayValue, yesterdayValue) => {
-    if (yesterdayValue === 0) return 100; // Tránh chia cho 0
+    if (yesterdayValue === 0) return 0; // Tránh chia cho 0
     return ((todayValue - yesterdayValue) / yesterdayValue * 100).toFixed(1);
   };
 

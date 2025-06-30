@@ -136,7 +136,7 @@ const RevenueUsers = () => {
                     <td className={className}>
                       <div className="flex items-center gap-4">
                         <Avatar 
-                          src={`https://ui-avatars.com/api/?name=${getInitials(user.fullname)}&background=random`}
+                          src={user.image ? user.image : `https://ui-avatars.com/api/?name=${getInitials(user.fullname)}&background=random`}
                           alt={user.fullname} 
                           size="md"
                           className="border border-blue-gray-50"

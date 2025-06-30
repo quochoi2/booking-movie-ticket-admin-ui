@@ -55,7 +55,7 @@ const ModalCinema = ({ open, onClose, onSubmit, initialData }) => {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialData ? "Edit Cinema" : "Create Cinema"}</DialogTitle>
+      <DialogTitle>{initialData ? "Cập nhật" : "Tạo mới"}</DialogTitle>
       <DialogContent>
         <TextField
           label="Tên rạp"

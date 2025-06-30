@@ -122,12 +122,12 @@ const RevenueCinemas = () => {
                   <tr key={cinema.cinemaId}>
                     <td className={className}>
                       <div className="flex items-center gap-4">
-                        <Avatar 
+                        {/* <Avatar 
                           src="/images/default-cinema.jpg" // You can replace with cinema.image if available
                           alt={cinema.name} 
                           size="md"
                           className="border border-blue-gray-50"
-                        />
+                        /> */}
                         <Typography variant="small" color="blue-gray">
                           {cinema.name}
                         </Typography>
