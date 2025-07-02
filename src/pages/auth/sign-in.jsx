@@ -13,8 +13,8 @@ export function SignIn() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("nguyena");
+  const [password, setPassword] = useState("111111");
 
   const handleLogin = async () => {
     try {
