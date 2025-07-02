@@ -37,31 +37,31 @@ export function SignIn() {
     <section className="m-8 flex gap-4">
       <div className="w-full lg:w-3/5 mt-24">
         <div className="text-center">
-          <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
-          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your username and password to Sign In.</Typography>
+          <Typography variant="h2" className="font-bold mb-4">Đăng nhập</Typography>
+          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Nhập tài khoản và mật khẩu để đăng nhập.</Typography>
         </div>
         <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Username
+              Tài khoản
             </Typography>
             <Input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               size="lg"
-              placeholder="nameofyouraccount..."
+              placeholder="Tên đăng nhập..."
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Password
+              Mật khẩu
             </Typography>
             <Input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type="password"
+              type="Mật khẩu"
               size="lg"
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -78,19 +78,19 @@ export function SignIn() {
                   color="gray"
                   className="flex items-center justify-start font-medium"
                 >
-                  Subscribe me to newsletter
+                  Ghi nhớ
                 </Typography>
               }
               containerProps={{ className: "-ml-2.5" }}
             />
             <Typography variant="small" className="font-medium text-gray-900">
               <a href="#">
-                Forgot Password
+                Quên mật khẩu
               </a>
             </Typography>
           </div>
           <Button className="mt-6" fullWidth onClick={handleLogin}>
-            Sign In
+            Đăng nhập
           </Button>
 
           <div className="space-y-4 mt-8">
@@ -108,16 +108,16 @@ export function SignIn() {
                   </clipPath>
                 </defs>
               </svg>
-              <span>Sign in With Google</span>
+              <span>Đăng nhập với Google</span>
             </Button>
             <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
               <img src="/img/twitter-logo.svg" height={24} width={24} alt="" />
-              <span>Sign in With Twitter</span>
+              <span>Đăng nhập với Twitter</span>
             </Button>
           </div>
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
-            Not registered?
-            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Create account</Link>
+            Chưa có tài khoản?
+            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Đăng ký ngay</Link>
           </Typography>
         </form>
 
