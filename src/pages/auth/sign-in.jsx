@@ -61,9 +61,9 @@ export function SignIn() {
             <Input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type="Mật khẩu"
+              type="password"
               size="lg"
-              placeholder="********"
+              placeholder="Nhập mật khẩu..."
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
