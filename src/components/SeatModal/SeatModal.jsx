@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import checkPaymentService from '@/services/checkPaymentService';
-import ServiceModal from '../ServiceModal/ServiceModal';
-import { useOrder } from '@/context/orderContext';
+import { useState, useEffect } from 'react'
+import checkPaymentService from '@/services/checkPaymentService'
+import ServiceModal from '../ServiceModal/ServiceModal'
+import { useOrder } from '@/context/orderContext'
 
 const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
-  const [seats, setSeats] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [seats, setSeats] = useState([])
+  const [selectedSeats, setSelectedSeats] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   // open service modal
-  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false)
 
   // save seats into order
   const { updateOrder } = useOrder()
@@ -18,86 +18,94 @@ const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        setLoading(true);
-        const response = await checkPaymentService.getSeats(cinemaId, showtimeId)
-        console.log(response.data.data);
-        setSeats(response.data.data);
-        setError(null);
+        setLoading(true)
+        const response = await checkPaymentService.getSeats(
+          cinemaId,
+          showtimeId
+        )
+        console.log(response.data.data)
+        setSeats(response.data.data)
+        setError(null)
       } catch (err) {
-        setError('Không thể tải danh sách ghế. Vui lòng thử lại.');
-        console.error('Error fetching seats:', err);
+        setError('Không thể tải danh sách ghế. Vui lòng thử lại.')
+        console.error('Error fetching seats:', err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
     if (cinemaId) {
-      fetchSeats();
+      fetchSeats()
     }
-  }, [cinemaId]);
+  }, [cinemaId])
 
   const toggleSeatSelection = (seat) => {
-    if (seat.isBooked) return;
-  
-    setSelectedSeats(prev => {
-      const currentCount = prev.reduce((total, s) => 
-        total + (s.type === 'couple' ? 2 : 1), 0);
-      
+    if (seat.isBooked) return
+
+    setSelectedSeats((prev) => {
+      const currentCount = prev.reduce(
+        (total, s) => total + (s.type === 'couple' ? 2 : 1),
+        0
+      )
+
       // Nếu ghế đã được chọn thì bỏ chọn
-      if (prev.some(s => s.id === seat.id)) {
-        return prev.filter(s => s.id !== seat.id);
+      if (prev.some((s) => s.id === seat.id)) {
+        return prev.filter((s) => s.id !== seat.id)
       }
       // Kiểm tra nếu thêm ghế này sẽ vượt quá giới hạn
       else if (currentCount + (seat.type === 'couple' ? 2 : 1) > 10) {
-        alert(`Bạn chỉ được chọn tối đa ${10} chỗ ngồi`);
-        return prev;
+        alert(`Bạn chỉ được chọn tối đa ${10} chỗ ngồi`)
+        return prev
       }
       // Thêm ghế vào danh sách đã chọn
       else {
-        return [...prev, seat];
+        return [...prev, seat]
       }
-    });
-  };
+    })
+  }
 
   const calculateTotal = () => {
-    return selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
-  };
+    return selectedSeats.reduce((sum, seat) => sum + seat.price, 0)
+  }
 
   const handleAddSeats = () => {
     // Chuẩn bị dữ liệu ghế để lưu vào Context
-    const seatData = selectedSeats.map(seat => ({
+    const seatData = selectedSeats.map((seat) => ({
       id: seat.id,
       name: seat.name,
       price: seat.price,
       type: seat.type
-    }));
+    }))
 
     // Cập nhật vào Context
     updateOrder({
       seats: seatData,
       totalSeatPrice: calculateTotal(),
       totalPrice: calculateTotal()
-    });
+    })
 
-    setShowServiceModal(true); 
-  };
+    setShowServiceModal(true)
+  }
 
   const handleServiceConfirm = () => {
-    setShowServiceModal(false);
-    onClose(); // Đóng SeatModal khi xác nhận từ ServiceModal
-  };
+    setShowServiceModal(false)
+    onClose() // Đóng SeatModal khi xác nhận từ ServiceModal
+  }
 
   return (
-    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4"
+    <div
+      className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4"
       style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
       }}
     >
       <div className="bg-gray-800 text-white rounded-lg max-w-5xl w-full max-h-[80vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold" style={{ fontSize: '28px' }}>Danh sách ghế</h2>
-            <button 
+            <h2 className="text-xl font-bold" style={{ fontSize: '28px' }}>
+              Danh sách ghế
+            </h2>
+            <button
               onClick={onClose}
               className="cursor-pointer text-gray-400 hover:text-white text-2xl"
             >
@@ -126,28 +134,39 @@ const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
                 {/* Group seats by row */}
                 {Object.entries(
                   seats.reduce((rows, seat) => {
-                    const row = seat.name.match(/^([A-Z]+)/)[0]; // Extract row letter (A, B, C...)
-                    if (!rows[row]) rows[row] = [];
-                    rows[row].push(seat);
-                    return rows;
+                    const row = seat.name.match(/^([A-Z]+)/)[0] // Extract row letter (A, B, C...)
+                    if (!rows[row]) rows[row] = []
+                    rows[row].push(seat)
+                    return rows
                   }, {})
                 ).map(([row, rowSeats]) => {
                   // Check if this row has couple seats
-                  const hasCoupleSeats = rowSeats.some(seat => seat.type === 'couple');
-                  
+                  const hasCoupleSeats = rowSeats.some(
+                    (seat) => seat.type === 'couple'
+                  )
+
                   return (
                     <div key={row} className="mb-4">
-                      <div className={`grid gap-2 ${hasCoupleSeats ? 'grid-cols-10' : 'grid-cols-10'}`}>
-                        {rowSeats.map(seat => (
-                          <div 
+                      <div
+                        className={`grid gap-2 ${hasCoupleSeats ? 'grid-cols-10' : 'grid-cols-10'}`}
+                      >
+                        {rowSeats.map((seat) => (
+                          <div
                             key={seat.id}
                             style={{ userSelect: 'none' }}
                             onClick={() => toggleSeatSelection(seat)}
                             className={`flex items-center justify-center h-10 rounded-md cursor-pointer transition-all
-                              ${seat.isBooked ? 'bg-gray-600 cursor-not-allowed' : 
-                                selectedSeats.some(s => s.id === seat.id) ? 'bg-green-500' : 
-                                seat.type === 'vip' ? 'bg-red-500' : 
-                                seat.type === 'couple' ? 'bg-pink-500' : 'bg-blue-500'}
+                              ${
+                                seat.isBooked
+                                  ? 'bg-gray-600 cursor-not-allowed'
+                                  : selectedSeats.some((s) => s.id === seat.id)
+                                    ? 'bg-green-500'
+                                    : seat.type === 'vip'
+                                      ? 'bg-red-500'
+                                      : seat.type === 'couple'
+                                        ? 'bg-pink-500'
+                                        : 'bg-blue-500'
+                              }
                               ${seat.type === 'couple' ? 'col-span-2' : ''}
                             `}
                           >
@@ -159,7 +178,7 @@ const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
                         ))}
                       </div>
                     </div>
-                  );
+                  )
                 })}
               </div>
 
@@ -189,21 +208,32 @@ const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
                 {selectedSeats.length > 0 ? (
                   <>
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {selectedSeats.map(seat => (
-                        <span 
-                          key={seat.id} 
+                      {selectedSeats.map((seat) => (
+                        <span
+                          key={seat.id}
                           className={`px-3 py-1 rounded flex items-center ${
-                            seat.type === 'vip' ? 'bg-red-500' : 
-                            seat.type === 'couple' ? 'bg-pink-500' : 'bg-blue-500'
+                            seat.type === 'vip'
+                              ? 'bg-red-500'
+                              : seat.type === 'couple'
+                                ? 'bg-pink-500'
+                                : 'bg-blue-500'
                           }`}
                         >
-                          {seat.name} 
+                          {seat.name}
                           <span className="ml-1 text-sm">
-                            ({seat.type === 'vip' ? 'VIP' : seat.type === 'couple' ? 'Cặp' : 'Thường'})
+                            (
+                            {seat.type === 'vip'
+                              ? 'VIP'
+                              : seat.type === 'couple'
+                                ? 'Cặp'
+                                : 'Thường'}
+                            )
                           </span>
                           <span className="ml-2 font-medium">
                             {seat.price.toLocaleString()}đ
-                            {seat.type === 'couple' && <span className="text-xs ml-1">(2 chỗ)</span>}
+                            {seat.type === 'couple' && (
+                              <span className="text-xs ml-1">(2 chỗ)</span>
+                            )}
                           </span>
                         </span>
                       ))}
@@ -213,8 +243,16 @@ const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
                         Ước tính: {calculateTotal().toLocaleString()}đ
                       </div>
                       <div className="text-sm text-gray-300">
-                        {selectedSeats.filter(s => s.type === 'couple').length > 0 && (
-                          <span>(Đã bao gồm {selectedSeats.filter(s => s.type === 'couple').length} ghế cặp)</span>
+                        {selectedSeats.filter((s) => s.type === 'couple')
+                          .length > 0 && (
+                          <span>
+                            (Đã bao gồm{' '}
+                            {
+                              selectedSeats.filter((s) => s.type === 'couple')
+                                .length
+                            }{' '}
+                            ghế cặp)
+                          </span>
                         )}
                       </div>
                     </div>
@@ -256,7 +294,7 @@ const SeatModal = ({ cinemaId, showtimeId, onClose }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 export default SeatModal

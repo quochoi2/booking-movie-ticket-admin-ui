@@ -1,21 +1,21 @@
 import { jwtDecode } from 'jwt-decode'
 import React, { createContext, useState, useEffect } from 'react'
 
-const UserContext = createContext();
+const UserContext = createContext()
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken")
+    const token = localStorage.getItem('accessToken')
     if (token) {
       try {
         const userInfo = jwtDecode(token)
         // console.log(userInfo);
         setUser(userInfo)
       } catch (error) {
-        console.error("Can not decode token", error)
+        console.error('Can not decode token', error)
       }
     }
     setLoading(false)
@@ -28,4 +28,4 @@ const UserProvider = ({ children }) => {
   )
 }
 
-export { UserContext, UserProvider}
+export { UserContext, UserProvider }

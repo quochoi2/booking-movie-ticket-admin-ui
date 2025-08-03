@@ -6,10 +6,10 @@ import {
   Avatar,
   Chip,
   Tooltip,
-  Progress,
-} from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData, projectsTableData } from "@/data";
+  Progress
+} from '@material-tailwind/react'
+import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
+import { authorsTableData, projectsTableData } from '@/data'
 
 export function Tables() {
   return (
@@ -24,7 +24,7 @@ export function Tables() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["author", "function", "status", "employed", ""].map((el) => (
+                {['author', 'function', 'status', 'employed', ''].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -44,15 +44,20 @@ export function Tables() {
                 ({ img, name, email, job, online, date }, key) => {
                   const className = `py-3 px-5 ${
                     key === authorsTableData.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
+                      ? ''
+                      : 'border-b border-blue-gray-50'
+                  }`
 
                   return (
                     <tr key={name}>
                       <td className={className}>
                         <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" variant="rounded" />
+                          <Avatar
+                            src={img}
+                            alt={name}
+                            size="sm"
+                            variant="rounded"
+                          />
                           <div>
                             <Typography
                               variant="small"
@@ -78,8 +83,8 @@ export function Tables() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={online ? "green" : "blue-gray"}
-                          value={online ? "online" : "offline"}
+                          color={online ? 'green' : 'blue-gray'}
+                          value={online ? 'online' : 'offline'}
                           className="py-0.5 px-2 text-[11px] font-medium w-fit"
                         />
                       </td>
@@ -98,7 +103,7 @@ export function Tables() {
                         </Typography>
                       </td>
                     </tr>
-                  );
+                  )
                 }
               )}
             </tbody>
@@ -115,7 +120,7 @@ export function Tables() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["companies", "members", "budget", "completion", ""].map(
+                {['companies', 'members', 'budget', 'completion', ''].map(
                   (el) => (
                     <th
                       key={el}
@@ -137,9 +142,9 @@ export function Tables() {
                 ({ img, name, members, budget, completion }, key) => {
                   const className = `py-3 px-5 ${
                     key === projectsTableData.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
+                      ? ''
+                      : 'border-b border-blue-gray-50'
+                  }`
 
                   return (
                     <tr key={name}>
@@ -164,7 +169,7 @@ export function Tables() {
                               size="xs"
                               variant="circular"
                               className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
+                                key === 0 ? '' : '-ml-2.5'
                               }`}
                             />
                           </Tooltip>
@@ -189,7 +194,7 @@ export function Tables() {
                           <Progress
                             value={completion}
                             variant="gradient"
-                            color={completion === 100 ? "green" : "gray"}
+                            color={completion === 100 ? 'green' : 'gray'}
                             className="h-1"
                           />
                         </div>
@@ -207,7 +212,7 @@ export function Tables() {
                         </Typography>
                       </td>
                     </tr>
-                  );
+                  )
                 }
               )}
             </tbody>
@@ -215,7 +220,7 @@ export function Tables() {
         </CardBody>
       </Card>
     </div>
-  );
+  )
 }
 
-export default Tables;
+export default Tables

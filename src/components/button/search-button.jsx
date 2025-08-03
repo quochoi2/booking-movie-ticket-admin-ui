@@ -1,34 +1,30 @@
-import { Bars3Icon } from "@heroicons/react/24/solid";
-import { IconButton, Input } from "@material-tailwind/react";
-import { useState } from "react";
+import { Bars3Icon } from '@heroicons/react/24/solid'
+import { IconButton, Input } from '@material-tailwind/react'
+import { useState } from 'react'
 
 const SearchButton = ({ onSearch }) => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('')
 
   const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchValue(value);
-    onSearch(value);
-  };
+    const value = e.target.value
+    setSearchValue(value)
+    onSearch(value)
+  }
 
-  return (  
+  return (
     <>
       <div className="mr-auto md:mr-4 md:w-56">
-        <Input 
-          label="Nhập thông tin..." 
+        <Input
+          label="Nhập thông tin..."
           value={searchValue}
-          onChange={handleSearchChange}  
+          onChange={handleSearchChange}
         />
       </div>
-      <IconButton
-        variant="text"
-        color="blue-gray"
-        className="grid xl:hidden"
-      >
+      <IconButton variant="text" color="blue-gray" className="grid xl:hidden">
         <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
       </IconButton>
-    </>  
-  );
-};
+    </>
+  )
+}
 
-export default SearchButton;
+export default SearchButton

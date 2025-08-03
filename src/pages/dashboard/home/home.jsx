@@ -1,64 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
+import { Typography } from '@material-tailwind/react'
+import { StatisticsCard } from '@/widgets/cards'
 import {
-  Typography,
-} from "@material-tailwind/react";
-import { StatisticsCard } from "@/widgets/cards";
-import { BanknotesIcon, ChartBarIcon, ChatBubbleLeftEllipsisIcon, CheckCircleIcon, ClockIcon, Cog6ToothIcon, HomeIcon, UserIcon } from "@heroicons/react/24/solid";
-import dashboardService from "@/services/dashboardService";
-import { RevenueStatistics } from "@/components/RevenueStatistics";
-import RevenueMovies from "@/components/RevenueMovies/RevenueMovies";
-import RevenueCinemas from "@/components/RevenueCinemas/RevenueCinemas";
-import RevenueUsers from "@/components/RevenueUsers/RevenueUsers";
+  BanknotesIcon,
+  ChartBarIcon,
+  ChatBubbleLeftEllipsisIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  Cog6ToothIcon,
+  HomeIcon,
+  UserIcon
+} from '@heroicons/react/24/solid'
+import dashboardService from '@/services/dashboardService'
+import { RevenueStatistics } from '@/components/RevenueStatistics'
+import RevenueMovies from '@/components/RevenueMovies/RevenueMovies'
+import RevenueCinemas from '@/components/RevenueCinemas/RevenueCinemas'
+import RevenueUsers from '@/components/RevenueUsers/RevenueUsers'
 
 export function Home() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   // form
   const [statisticData, setStatisticData] = useState({
     today: {
-      date: "",
+      date: '',
       totalRevenue: 0,
       totalTickets: 0,
       totalCustomers: 0
     },
     yesterday: {
-      date: "",
+      date: '',
       totalRevenueYesterday: 0,
       totalTicketsYesterday: 0,
       totalCustomersYesterday: 0
     }
-  });
+  })
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await dashboardService.statisticToday();
+        const res = await dashboardService.statisticToday()
         // console.log(res.data);
         // Cấu trúc lại dữ liệu để dễ sử dụng
         setStatisticData({
           today: res.data[0],
-          yesterday: res.data[1],
-        });
+          yesterday: res.data[1]
+        })
       } catch (error) {
-        console.error("Error fetching statistics:", error);
+        console.error('Error fetching statistics:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    
-    fetchData();
-  }, []);
+    }
+
+    fetchData()
+  }, [])
 
   // Tính toán phần trăm thay đổi
   const calculateChange = (todayValue, yesterdayValue) => {
-    if (yesterdayValue === 0) return 0; // Tránh chia cho 0
-    return ((todayValue - yesterdayValue) / yesterdayValue * 100).toFixed(1);
-  };
+    if (yesterdayValue === 0) return 0 // Tránh chia cho 0
+    return (((todayValue - yesterdayValue) / yesterdayValue) * 100).toFixed(1)
+  }
 
   // Định dạng tiền tệ
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-  };
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(value)
+  }
 
   return (
     <div className="mt-8">
@@ -77,13 +87,25 @@ export function Home() {
               value={formatCurrency(statisticData.today.totalRevenue)}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
-                  <strong className={
-                    statisticData.today.totalRevenue >= statisticData.yesterday.totalRevenueYesterday ? 
-                    "text-green-500" : "text-red-500"
-                  }>{calculateChange(statisticData.today.totalRevenue, statisticData.yesterday.totalRevenueYesterday)}%
+                  <strong
+                    className={
+                      statisticData.today.totalRevenue >=
+                      statisticData.yesterday.totalRevenueYesterday
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }
+                  >
+                    {calculateChange(
+                      statisticData.today.totalRevenue,
+                      statisticData.yesterday.totalRevenueYesterday
+                    )}
+                    %
                   </strong>
-                  &nbsp;{statisticData.today.totalRevenue >= statisticData.yesterday.totalRevenueYesterday ? 
-                  "so với hôm qua" : "so với hôm qua"}
+                  &nbsp;
+                  {statisticData.today.totalRevenue >=
+                  statisticData.yesterday.totalRevenueYesterday
+                    ? 'so với hôm qua'
+                    : 'so với hôm qua'}
                 </Typography>
               }
             />
@@ -94,13 +116,25 @@ export function Home() {
               value={statisticData.today.totalTickets.toString()}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
-                  <strong className={
-                    statisticData.today.totalTickets >= statisticData.yesterday.totalTicketsYesterday ? 
-                    "text-green-500" : "text-red-500"
-                  }>{calculateChange(statisticData.today.totalTickets, statisticData.yesterday.totalTicketsYesterday)}%
+                  <strong
+                    className={
+                      statisticData.today.totalTickets >=
+                      statisticData.yesterday.totalTicketsYesterday
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }
+                  >
+                    {calculateChange(
+                      statisticData.today.totalTickets,
+                      statisticData.yesterday.totalTicketsYesterday
+                    )}
+                    %
                   </strong>
-                  &nbsp;{statisticData.today.totalTickets >= statisticData.yesterday.totalTicketsYesterday ? 
-                  "so với hôm qua" : "so với hôm qua"}
+                  &nbsp;
+                  {statisticData.today.totalTickets >=
+                  statisticData.yesterday.totalTicketsYesterday
+                    ? 'so với hôm qua'
+                    : 'so với hôm qua'}
                 </Typography>
               }
             />
@@ -111,14 +145,25 @@ export function Home() {
               value={statisticData.today.totalCustomers.toString()}
               footer={
                 <Typography className="font-normal text-blue-gray-600">
-                  <strong className={
-                    statisticData.today.totalCustomers >= statisticData.yesterday.totalCustomersYesterday ? 
-                    "text-green-500" : "text-red-500"
-                  }>
-                    {calculateChange(statisticData.today.totalCustomers, statisticData.yesterday.totalCustomersYesterday)}%
+                  <strong
+                    className={
+                      statisticData.today.totalCustomers >=
+                      statisticData.yesterday.totalCustomersYesterday
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }
+                  >
+                    {calculateChange(
+                      statisticData.today.totalCustomers,
+                      statisticData.yesterday.totalCustomersYesterday
+                    )}
+                    %
                   </strong>
-                  &nbsp;{statisticData.today.totalCustomers >= statisticData.yesterday.totalCustomersYesterday ? 
-                  "so với hôm qua" : "so với hôm qua"}
+                  &nbsp;
+                  {statisticData.today.totalCustomers >=
+                  statisticData.yesterday.totalCustomersYesterday
+                    ? 'so với hôm qua'
+                    : 'so với hôm qua'}
                 </Typography>
               }
             />
@@ -146,7 +191,7 @@ export function Home() {
         <RevenueStatistics />
       </div>
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home

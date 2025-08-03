@@ -1,5 +1,5 @@
-import React from 'react';
-import { MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import React from 'react'
+import { MenuItem, Select, InputLabel, FormControl } from '@mui/material'
 
 const SelectMonth = ({ selected, setSelected }) => {
   return (
@@ -13,22 +13,22 @@ const SelectMonth = ({ selected, setSelected }) => {
           PaperProps: {
             style: {
               maxHeight: 48 * 4.5 + 8,
-              width: 250,
-            },
-          },
+              width: 250
+            }
+          }
         }}
       >
         {[...Array(12).keys()].map((i) => {
-          const month = i + 1;
+          const month = i + 1
           return (
             <MenuItem key={month} value={month}>
               {month} months
             </MenuItem>
-          );
+          )
         })}
       </Select>
     </FormControl>
-  );
-};
+  )
+}
 
-export default SelectMonth;
+export default SelectMonth

@@ -1,1 +1,1 @@
-export { default as CinemaPage } from './cinema';
+export { default as CinemaPage } from './cinema'

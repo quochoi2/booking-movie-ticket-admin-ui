@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -12,11 +12,11 @@ import {
   Button,
   IconButton,
   Chip,
-  Box,
-} from '@mui/material';
-import movieService from '@/services/movieService';
-import cinemaService from '@/services/cinemaService';
-import { TrashIcon } from "@heroicons/react/24/solid";
+  Box
+} from '@mui/material'
+import movieService from '@/services/movieService'
+import cinemaService from '@/services/cinemaService'
+import { TrashIcon } from '@heroicons/react/24/solid'
 
 const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -24,60 +24,61 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
     cinemaIds: [],
     startDate: '',
     endDate: '',
-    timeSlots: [],
-  });
-  const [movies, setMovies] = useState([]);
-  const [cinemas, setCinemas] = useState([]);
+    timeSlots: []
+  })
+  const [movies, setMovies] = useState([])
+  const [cinemas, setCinemas] = useState([])
 
   useEffect(() => {
     if (open) {
-      movieService.getAll('', 1, 100)
+      movieService
+        .getAll('', 1, 100)
         .then((res) => {
           // console.log("Movies fetched:", res);
-          setMovies(res.data);
+          setMovies(res.data)
         })
         .catch((err) => {
-          console.error("Error fetching movies:", err);
-        });
+          console.error('Error fetching movies:', err)
+        })
 
-      cinemaService.getAll('', 1, 100)
+      cinemaService
+        .getAll('', 1, 100)
         .then((res) => {
           // console.log("Cinemas fetched:", res);
-          setCinemas(res.data);
+          setCinemas(res.data)
         })
         .catch((err) => {
-          console.error("Error fetching cinemas:", err);
-        });
+          console.error('Error fetching cinemas:', err)
+        })
     }
-  }, [open]);
+  }, [open])
 
   const handleChange = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleTimeSlotChange = (index, value) => {
-    const newTimeSlots = [...formData.timeSlots];
-    newTimeSlots[index] = value;
-    setFormData(prev => ({ ...prev, timeSlots: newTimeSlots }));
-  };
+    const newTimeSlots = [...formData.timeSlots]
+    newTimeSlots[index] = value
+    setFormData((prev) => ({ ...prev, timeSlots: newTimeSlots }))
+  }
 
   const addTimeSlot = () => {
-    setFormData(prev => ({ ...prev, timeSlots: [...prev.timeSlots, ''] }));
-  };
+    setFormData((prev) => ({ ...prev, timeSlots: [...prev.timeSlots, ''] }))
+  }
 
   const removeTimeSlot = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       timeSlots: prev.timeSlots.filter((_, i) => i !== index)
-    }));
-  };
+    }))
+  }
 
   return (
     <Dialog open={open} onClose={handleOpen} fullWidth maxWidth="md">
       <DialogTitle>Tự động tạo lịch chiếu</DialogTitle>
       <DialogContent>
         <Box display="flex" flexDirection="column" gap={2}>
-
           {/* Chọn phim */}
           <FormControl fullWidth>
             <InputLabel>Chọn phim</InputLabel>
@@ -86,7 +87,7 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
               onChange={(e) => handleChange('movieId', e.target.value)}
               label="Chọn phim"
             >
-              {movies.map(movie => (
+              {movies.map((movie) => (
                 <MenuItem key={movie.id} value={movie.id}>
                   {movie.title} ({movie.duration} phút)
                 </MenuItem>
@@ -105,12 +106,15 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={cinemas.find(c => c.id === value)?.name || value} />
+                    <Chip
+                      key={value}
+                      label={cinemas.find((c) => c.id === value)?.name || value}
+                    />
                   ))}
                 </Box>
               )}
             >
-              {cinemas.map(cinema => (
+              {cinemas.map((cinema) => (
                 <MenuItem key={cinema.id} value={cinema.id}>
                   {cinema.name}
                 </MenuItem>
@@ -140,18 +144,32 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
 
           {/* Khung giờ */}
           <Box>
-            <Box mb={1} fontWeight="bold">Khung giờ chiếu</Box>
+            <Box mb={1} fontWeight="bold">
+              Khung giờ chiếu
+            </Box>
             <Box display="flex" flexWrap="wrap" gap={2}>
               {formData.timeSlots.map((slot, index) => (
-                <Box key={index} display="flex" alignItems="center" gap={1} width="180px">
+                <Box
+                  key={index}
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  width="180px"
+                >
                   <TextField
                     type="time"
                     value={slot}
-                    onChange={(e) => handleTimeSlotChange(index, e.target.value)}
+                    onChange={(e) =>
+                      handleTimeSlotChange(index, e.target.value)
+                    }
                     fullWidth
                   />
-                  <IconButton onClick={() => removeTimeSlot(index)} color="error" size="small">
-                    <TrashIcon className="h-5 w-5 text-blue-gray-500" />                  
+                  <IconButton
+                    onClick={() => removeTimeSlot(index)}
+                    color="error"
+                    size="small"
+                  >
+                    <TrashIcon className="h-5 w-5 text-blue-gray-500" />
                   </IconButton>
                 </Box>
               ))}
@@ -160,7 +178,6 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
               Thêm khung giờ
             </Button>
           </Box>
-
         </Box>
       </DialogContent>
       <DialogActions>
@@ -169,7 +186,7 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
         </Button>
         <Button
           onClick={async () => {
-            await onSubmit(formData);
+            await onSubmit(formData)
             // console.log(formData);
             setFormData({
               movieId: '',
@@ -177,8 +194,8 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
               startDate: '',
               endDate: '',
               timeSlots: []
-            });
-            handleOpen();
+            })
+            handleOpen()
           }}
           color="primary"
         >
@@ -186,7 +203,7 @@ const AutoGenerateModal = ({ open, handleOpen, onSubmit }) => {
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AutoGenerateModal;
+export default AutoGenerateModal

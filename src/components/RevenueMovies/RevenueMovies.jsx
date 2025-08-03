@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Typography,
   Card,
@@ -10,61 +10,63 @@ import {
   MenuList,
   MenuItem,
   Avatar,
-  Chip,
-} from "@material-tailwind/react";
-import {
-  EllipsisVerticalIcon,
-} from "@heroicons/react/24/outline";
-import dashboardService from "@/services/dashboardService";
+  Chip
+} from '@material-tailwind/react'
+import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
+import dashboardService from '@/services/dashboardService'
 
 const RevenueMovies = () => {
-  const [moviesData, setMoviesData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [period, setPeriod] = useState("all");
+  const [moviesData, setMoviesData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [period, setPeriod] = useState('all')
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const data = await dashboardService.statisticMovies(period);
-        console.log('movies', data.data);
-        setMoviesData(data.data);
-        
-        setLoading(false);
+        setLoading(true)
+        const data = await dashboardService.statisticMovies(period)
+        console.log('movies', data.data)
+        setMoviesData(data.data)
+
+        setLoading(false)
       } catch (error) {
-        console.error("Error fetching movie statistics:", error);
-        setLoading(false);
+        console.error('Error fetching movie statistics:', error)
+        setLoading(false)
       }
-    };
-    
-    fetchData();
-  }, [period]);
+    }
+
+    fetchData()
+  }, [period])
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('vi-VN', { 
-      style: 'currency', 
-      currency: 'VND' 
-    }).format(amount);
-  };
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(amount)
+  }
 
   const getPeriodLabel = () => {
     switch (period) {
-      case "day": return "hôm nay";
-      case "month": return "tháng này";
-      case "year": return "năm nay";
-      default: return "toàn thời gian";
+      case 'day':
+        return 'hôm nay'
+      case 'month':
+        return 'tháng này'
+      case 'year':
+        return 'năm nay'
+      default:
+        return 'toàn thời gian'
     }
-  };
+  }
 
   if (loading) {
-    return <div className="text-center py-8">Đang tải dữ liệu...</div>;
+    return <div className="text-center py-8">Đang tải dữ liệu...</div>
   }
 
   if (!moviesData) {
-    return <div className="text-center py-8">Không có dữ liệu</div>;
+    return <div className="text-center py-8">Không có dữ liệu</div>
   }
 
-  return (  
+  return (
     <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
       <Card className="overflow-hidden xl:col-span-3 border border-blue-gray-100 shadow-sm">
         <CardHeader
@@ -77,8 +79,12 @@ const RevenueMovies = () => {
             <Typography variant="h6" color="blue-gray" className="mb-1">
               Thống kê doanh thu phim {getPeriodLabel()}
             </Typography>
-            <Typography variant="small" className="font-normal text-blue-gray-600">
-              Tổng doanh thu: {formatCurrency(moviesData.totalRevenue)} - {moviesData.totalMovies} phim
+            <Typography
+              variant="small"
+              className="font-normal text-blue-gray-600"
+            >
+              Tổng doanh thu: {formatCurrency(moviesData.totalRevenue)} -{' '}
+              {moviesData.totalMovies} phim
             </Typography>
           </div>
           <Menu placement="left-start">
@@ -88,10 +94,12 @@ const RevenueMovies = () => {
               </IconButton>
             </MenuHandler>
             <MenuList>
-              <MenuItem onClick={() => setPeriod("day")}>Theo ngày</MenuItem>
-              <MenuItem onClick={() => setPeriod("month")}>Theo tháng</MenuItem>
-              <MenuItem onClick={() => setPeriod("year")}>Theo năm</MenuItem>
-              <MenuItem onClick={() => setPeriod("all")}>Toàn thời gian</MenuItem>
+              <MenuItem onClick={() => setPeriod('day')}>Theo ngày</MenuItem>
+              <MenuItem onClick={() => setPeriod('month')}>Theo tháng</MenuItem>
+              <MenuItem onClick={() => setPeriod('year')}>Theo năm</MenuItem>
+              <MenuItem onClick={() => setPeriod('all')}>
+                Toàn thời gian
+              </MenuItem>
             </MenuList>
           </Menu>
         </CardHeader>
@@ -99,7 +107,7 @@ const RevenueMovies = () => {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["Phim", "Doanh thu", "Số vé",].map((el) => (
+                {['Phim', 'Doanh thu', 'Số vé'].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-6 text-left"
@@ -118,24 +126,21 @@ const RevenueMovies = () => {
               {moviesData.movies.slice(0, 5).map((movie, key) => {
                 const className = `py-3 px-5 ${
                   key === moviesData.movies.length - 1
-                    ? ""
-                    : "border-b border-blue-gray-50"
-                }`;
+                    ? ''
+                    : 'border-b border-blue-gray-50'
+                }`
 
                 return (
                   <tr key={movie.movieId}>
                     <td className={className}>
                       <div className="flex items-center gap-4">
-                        <Avatar 
-                          src={movie.image} 
-                          alt={movie.title} 
+                        <Avatar
+                          src={movie.image}
+                          alt={movie.title}
                           size="md"
                           className="border border-blue-gray-50"
                         />
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                        >
+                        <Typography variant="small" color="blue-gray">
                           {movie.title}
                         </Typography>
                       </div>
@@ -174,14 +179,14 @@ const RevenueMovies = () => {
                       )}
                     </td>
                   </tr>
-                );
+                )
               })}
             </tbody>
           </table>
         </CardBody>
       </Card>
     </div>
-  );
+  )
 }
 
-export default RevenueMovies;
+export default RevenueMovies

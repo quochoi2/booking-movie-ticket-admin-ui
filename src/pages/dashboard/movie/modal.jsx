@@ -1,89 +1,84 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   TextField,
-  Button,
-  Input,
-} from "@mui/material";
-import { SelectMonth } from "@/components/selected";
+  Button
+} from '@mui/material'
 
 const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
   const [formData, setFormData] = useState({
-    title: "",
-    titleAnother: "",
+    title: '',
+    titleAnother: '',
     image: null,
-    video: "",
-    description: "",
-    type: "",
-    studio: "",
-    dateAired: "",
-    score: "",
-    duration: "",
-    quality: "",
-  });
+    video: '',
+    description: '',
+    type: '',
+    studio: '',
+    dateAired: '',
+    score: '',
+    duration: '',
+    quality: ''
+  })
 
   useEffect(() => {
     if (initialData) {
       setFormData({
         id: initialData.id || null,
-        title: initialData.title || "",
-        titleAnother: initialData.titleAnother || "",
-        image: initialData.image || "",
-        video: initialData.video || "",
-        description: initialData.description || "",
-        type: initialData.type || "",
-        studio: initialData.studio || "",
-        dateAired: initialData.dateAired || "",
-        score: initialData.score || "",
-        duration: initialData.duration || "",
-        quality: initialData.quality || "",
-      });
+        title: initialData.title || '',
+        titleAnother: initialData.titleAnother || '',
+        image: initialData.image || '',
+        video: initialData.video || '',
+        description: initialData.description || '',
+        type: initialData.type || '',
+        studio: initialData.studio || '',
+        dateAired: initialData.dateAired || '',
+        score: initialData.score || '',
+        duration: initialData.duration || '',
+        quality: initialData.quality || ''
+      })
     } else {
-      resetForm();
+      resetForm()
     }
-  }, [initialData]);
+  }, [initialData])
 
   const resetForm = () => {
     setFormData({
-      title: "",
-      titleAnother: "",
-      image: "",
-      video: "",
-      description: "",
-      type: "",
-      studio: "",
-      dateAired: "",
-      score: "",
-      duration: "",
-      quality: "",
-    });
-  };
+      title: '',
+      titleAnother: '',
+      image: '',
+      video: '',
+      description: '',
+      type: '',
+      studio: '',
+      dateAired: '',
+      score: '',
+      duration: '',
+      quality: ''
+    })
+  }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));  
-  };
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleImageChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      image: e.target.files[0],
-    }));
-  };
-  
+    setFormData((prev) => ({ ...prev, image: e.target.files[0] }))
+  }
+
   const handleSubmit = () => {
-    onSubmit({ ...formData });
-    onClose();
-    resetForm();
+    onSubmit({ ...formData })
+    onClose()
+    resetForm()
     // console.log({ ...formData });
-  };
+  }
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialData ? "Cập nhật" : "Tạo mới"}</DialogTitle>
+      <DialogTitle>{initialData ? 'Cập nhật' : 'Tạo mới'}</DialogTitle>
       <DialogContent>
         {/* title  */}
         <div className="mt-5">
@@ -162,9 +157,7 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
             value={formData.dateAired}
             onChange={handleChange}
             required
-            InputLabelProps={{
-              shrink: true,
-            }}
+            InputLabelProps={{ shrink: true }}
           />
         </div>
         {/* status  */}
@@ -219,8 +212,12 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         </div>
         {/* Image */}
         <div className="mt-5">
-          {formData.image && typeof formData.image === "string" && (
-            <img src={formData.image} alt="Preview" className="w-full h-auto rounded-md" />
+          {formData.image && typeof formData.image === 'string' && (
+            <img
+              src={formData.image}
+              alt="Preview"
+              className="w-full h-auto rounded-md"
+            />
           )}
           <input
             type="file"
@@ -233,15 +230,12 @@ const ModalMovie = ({ open, onClose, onSubmit, initialData }) => {
         <Button onClick={onClose} color="secondary">
           Huỷ
         </Button>
-        <Button 
-          onClick={handleSubmit} 
-          color="primary"
-        > 
-          {initialData ? "Cập nhật" : "Tạo"}
+        <Button onClick={handleSubmit} color="primary">
+          {initialData ? 'Cập nhật' : 'Tạo'}
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ModalMovie;
+export default ModalMovie

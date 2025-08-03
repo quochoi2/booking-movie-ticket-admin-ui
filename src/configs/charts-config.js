@@ -1,75 +1,75 @@
 export const chartsConfig = {
-  type: "line",
+  type: 'line',
   height: 250,
   chart: {
     toolbar: {
-      show: false,
+      show: false
     },
-    background: "#ffffff",
+    background: '#ffffff'
   },
   title: {
-    show: "",
+    show: ''
   },
-  colors: ["#0288d1", "#FF4560"],
+  colors: ['#0288d1', '#FF4560'],
   stroke: {
-    lineCap: "round",
+    lineCap: 'round'
   },
   markers: {
-    size: 5,
+    size: 5
   },
   xaxis: {
     axisTicks: {
-      show: false,
+      show: false
     },
     axisBorder: {
-      show: false,
+      show: false
     },
     labels: {
       style: {
-        colors: "#37474f",
-        fontSize: "13px",
-        fontFamily: "inherit",
-        fontWeight: 300,
-      },
-    },
+        colors: '#37474f',
+        fontSize: '13px',
+        fontFamily: 'inherit',
+        fontWeight: 300
+      }
+    }
   },
   yaxis: {
     axisTicks: {
-      show: false,
+      show: false
     },
     axisBorder: {
-      show: false,
+      show: false
     },
     labels: {
       style: {
-        colors: "#37474f",
-        fontSize: "13px",
-        fontFamily: "inherit",
-        fontWeight: 300,
-      },
-    },
+        colors: '#37474f',
+        fontSize: '13px',
+        fontFamily: 'inherit',
+        fontWeight: 300
+      }
+    }
   },
   grid: {
     show: true,
-    borderColor: "#dddddd",
+    borderColor: '#dddddd',
     strokeDashArray: 5,
     xaxis: {
       lines: {
-        show: true,
-      },
+        show: true
+      }
     },
     padding: {
       top: 5,
-      right: 20,
+      right: 20
     },
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff'
   },
   fill: {
-    opacity: 0.8,
+    opacity: 0.8
   },
   tooltip: {
-    theme: "dark",
-  },
-};
+    theme: 'dark'
+  }
+}
 
-export default chartsConfig;
+export default chartsConfig

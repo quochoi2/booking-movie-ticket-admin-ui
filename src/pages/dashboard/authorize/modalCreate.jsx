@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Dialog,
   DialogHeader,
@@ -9,8 +9,8 @@ import {
   Select,
   Option,
   Typography
-} from '@material-tailwind/react';
-import AuthorizeService from '@/services/authorizeService';
+} from '@material-tailwind/react'
+import AuthorizeService from '@/services/authorizeService'
 
 const CreateEmployeeModal = ({ open, handleOpen }) => {
   const [formData, setFormData] = useState({
@@ -19,35 +19,35 @@ const CreateEmployeeModal = ({ open, handleOpen }) => {
     username: '',
     password: '',
     role: 'employee'
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+    const { name, value } = e.target
+    setFormData((prev) => ({
       ...prev,
       [name]: value
-    }));
-  };
+    }))
+  }
 
   const handleRoleChange = (value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       role: value
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async () => {
     try {
-      setLoading(true);
-      setError('');
-  
+      setLoading(true)
+      setError('')
+
       // Validate
       if (!formData.email || !formData.username || !formData.password) {
-        throw new Error('Vui lòng điền đầy đủ thông tin');
+        throw new Error('Vui lòng điền đầy đủ thông tin')
       }
-  
+
       // Log dữ liệu sẽ gửi lên
       // console.group('Dữ liệu đang gửi lên server:');
       // console.log('Form Data:', formData);
@@ -59,30 +59,29 @@ const CreateEmployeeModal = ({ open, handleOpen }) => {
       //   role: formData.role
       // });
       // console.groupEnd();
-  
+
       // Gọi API đăng ký
-      const response = await AuthorizeService.registerEmployee(formData);
-      
-      console.log('Đăng ký thành công:', response.data);
-      handleOpen(false); 
-      
+      const response = await AuthorizeService.registerEmployee(formData)
+
+      console.log('Đăng ký thành công:', response.data)
+      handleOpen(false)
     } catch (err) {
-      console.error('Lỗi khi đăng ký:', err);
-      
+      console.error('Lỗi khi đăng ký:', err)
+
       // Log chi tiết lỗi
-      console.group('Chi tiết lỗi:');
-      console.error('Error message:', err.message);
+      console.group('Chi tiết lỗi:')
+      console.error('Error message:', err.message)
       if (err.response) {
-        console.error('Response data:', err.response.data);
-        console.error('Status code:', err.response.status);
+        console.error('Response data:', err.response.data)
+        console.error('Status code:', err.response.status)
       }
-      console.groupEnd();
-      
-      setError(err.response?.data?.message || err.message || 'Đăng ký thất bại');
+      console.groupEnd()
+
+      setError(err.response?.data?.message || err.message || 'Đăng ký thất bại')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <Dialog open={open} handler={handleOpen} size="md">
@@ -156,7 +155,7 @@ const CreateEmployeeModal = ({ open, handleOpen }) => {
         </Button>
       </DialogFooter>
     </Dialog>
-  );
-};
+  )
+}
 
-export default CreateEmployeeModal;
+export default CreateEmployeeModal

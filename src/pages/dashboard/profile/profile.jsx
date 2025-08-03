@@ -10,17 +10,17 @@ import {
   Tab,
   Switch,
   Tooltip,
-  Button,
-} from "@material-tailwind/react";
+  Button
+} from '@material-tailwind/react'
 import {
   HomeIcon,
   ChatBubbleLeftEllipsisIcon,
   Cog6ToothIcon,
-  PencilIcon,
-} from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
-import { platformSettingsData, conversationsData, projectsData } from "@/data";
+  PencilIcon
+} from '@heroicons/react/24/solid'
+import { Link } from 'react-router-dom'
+import { ProfileInfoCard, MessageCard } from '@/widgets/cards'
+import { platformSettingsData, conversationsData, projectsData } from '@/data'
 
 export function Profile() {
   return (
@@ -89,7 +89,7 @@ export function Profile() {
                           label={label}
                           defaultChecked={checked}
                           labelProps={{
-                            className: "text-sm font-normal text-blue-gray-500",
+                            className: 'text-sm font-normal text-blue-gray-500'
                           }}
                         />
                       ))}
@@ -102,17 +102,17 @@ export function Profile() {
               title="Profile Information"
               description="Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
               details={{
-                "first name": "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
+                'first name': 'Alec M. Thompson',
+                mobile: '(44) 123 1234 123',
+                email: 'alecthompson@mail.com',
+                location: 'USA',
                 social: (
                   <div className="flex items-center gap-4">
                     <i className="fa-brands fa-facebook text-blue-700" />
                     <i className="fa-brands fa-twitter text-blue-400" />
                     <i className="fa-brands fa-instagram text-purple-500" />
                   </div>
-                ),
+                )
               }}
               action={
                 <Tooltip content="Edit Profile">
@@ -200,7 +200,7 @@ export function Profile() {
                               size="xs"
                               variant="circular"
                               className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
+                                key === 0 ? '' : '-ml-2.5'
                               }`}
                             />
                           </Tooltip>
@@ -215,7 +215,7 @@ export function Profile() {
         </CardBody>
       </Card>
     </>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

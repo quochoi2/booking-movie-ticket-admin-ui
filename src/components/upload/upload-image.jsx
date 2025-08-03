@@ -1,5 +1,5 @@
-import React from "react";
-import { Button } from "@mui/material";
+import React from 'react'
+import { Button } from '@mui/material'
 
 const UploadImage = ({ onChange, imagePreview }) => {
   return (
@@ -9,7 +9,7 @@ const UploadImage = ({ onChange, imagePreview }) => {
           accept="image/*"
           id="upload-image-button"
           type="file"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           onChange={onChange}
         />
         <Button
@@ -29,7 +29,7 @@ const UploadImage = ({ onChange, imagePreview }) => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default UploadImage;
+export default UploadImage

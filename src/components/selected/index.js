@@ -1,1 +1,1 @@
-export { default as SelectMonth } from './select-month';
+export { default as SelectMonth } from './select-month'

@@ -1,1 +1,1 @@
-export { default as ShowTime } from './show-time';
+export { default as ShowTime } from './show-time'
